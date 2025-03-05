@@ -2,9 +2,9 @@
 
 Team Members:
 
-*
-*
-*
+* Claire Skatrud
+* Melena Braggs
+* Gabriela Hakeman
 *
 
 For each iteration you should answer the following:
