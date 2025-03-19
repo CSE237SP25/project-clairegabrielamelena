@@ -13,6 +13,7 @@ public class BankCustomer {
 		accountList = new ArrayList<BankAccount>();
 	}
 	
+	//Gabriela
 	public boolean openAccount(String accountName) {
 		return false;
 	}
@@ -25,6 +26,7 @@ public class BankCustomer {
 		return accountList;
 	}
 	
+	//Melena
 	public boolean renameAccount(String newAccountName) {
 		return false;
 	}
