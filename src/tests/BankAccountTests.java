@@ -14,7 +14,7 @@ public class BankAccountTests {
 	@Test
 	public void testSimpleDeposit() {
 		//1. Create objects to be tested
-		BankAccount account = new BankAccount();
+		BankAccount account = new BankAccount("test");
 		
 		//2. Call the method being tested
 		account.deposit(25);
@@ -26,7 +26,7 @@ public class BankAccountTests {
 	@Test
 	public void testNegativeDeposit() {
 		//1. Create object to be tested
-		BankAccount account = new BankAccount();
+		BankAccount account = new BankAccount("test");
 
 		try {
 			account.deposit(-25);

@@ -16,7 +16,8 @@ public class Menu {
 	public BankCustomer createCustomerUser(String username) {
 		//set as currentCustomer
 		//set accountList instance variable from currentCustomer
-		return null;
+		currentCustomer = new BankCustomer(username);
+		return currentCustomer;
 	}
 	
 	//Gabriela
@@ -74,11 +75,11 @@ public class Menu {
 	}
 	
 	public void processUserInput(String amount) {
-		theAccount.deposit(amount);
+		//currentAccount.deposit(amount);
 	}
 	
 	public BankAccount getAccount() {
-		return theAccount;
+		return currentAccount;
 	}
 	
 
