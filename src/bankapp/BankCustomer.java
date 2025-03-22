@@ -26,6 +26,10 @@ public class BankCustomer {
 		return accountList;
 	}
 	
+	public String getUsername() {
+		return username;
+	}
+	
 	//Melena
 	public boolean renameAccount(String newAccountName) {
 		return false;
