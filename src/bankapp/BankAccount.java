@@ -19,7 +19,10 @@ public class BankAccount {
 	
 	//Claire
 	public void withdraw(double amount) {
-		//TODO withdraw
+		if(amount > balance || amount < 0) {
+			throw new IllegalArgumentException();
+		}
+		this.balance -= amount;
 	}
 	
 	public double getCurrentBalance() {

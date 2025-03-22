@@ -35,4 +35,37 @@ public class BankAccountTests {
 			assertTrue(e != null);
 		}
 	}
+	
+	@Test
+	public void testSimpleWithdrawl() {
+		BankAccount account = new BankAccount("test");
+		account.deposit(30);
+		account.withdraw(25);
+		
+		assertEquals(account.getCurrentBalance(), 5.0, 0.005);
+	}
+	
+	@Test
+	public void testInvalidWithdrawl() {
+		BankAccount account = new BankAccount("test");
+		account.deposit(30);
+		try {
+			account.withdraw(40);
+			fail();
+		} catch (IllegalArgumentException e) {
+			assertTrue(e != null);
+		}
+	}
+	
+	@Test
+	public void testNegativeWithdrawl() {
+		BankAccount account = new BankAccount("test");
+		account.deposit(30);
+		try {
+			account.withdraw(-10);
+			fail();
+		} catch (IllegalArgumentException e) {
+			assertTrue(e != null);
+		}
+	}
 }
