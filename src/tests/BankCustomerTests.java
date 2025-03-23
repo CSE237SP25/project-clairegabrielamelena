@@ -33,5 +33,14 @@ public class BankCustomerTests {
 		assertEquals(emptyAccountList, testUser.getAccountList());
 		
 	}
+	
+	@Test
+	public void testCustomerBankAccountCreation() {
+		BankCustomer testUser = new BankCustomer("testUser");
+		BankAccount testBankAccount = testUser.openAccount("testing");
+		
+		assertEquals(testUser.getAccountList().size(), 1);
+		assertEquals(testBankAccount.getCurrentBalance(), 0, 0.01);
+	}
 
 }

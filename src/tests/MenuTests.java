@@ -41,5 +41,32 @@ public class MenuTests {
             System.setIn(originalSystemIn); //restore System.in
         }
 	}
+	
+	@Test
+	
+	public void testCustomerBankAccountCreation() {
+		/*Menu testMenu = new Menu();
+		testMenu.createCustomerUser("testUser");
+		testMenu.createBankAccount();
+		
+		String simulatedInput = "name"; //try selection 1
+        InputStream originalSystemIn = System.in; //save original System.in
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+
+        try {
+           
+            
+            //ensure createAccount() was called by asserting that there is 1 account in the account list
+            assertEquals(1, testMenu.getAccountList().size());
+        } finally {
+            System.setIn(originalSystemIn); //restore System.in
+            
+        }*/
+		Menu testMenu = new Menu();
+		testMenu.createCustomerUser("testUser");
+		testMenu.createBankAccount("name");
+		assertEquals(1, testMenu.getAccountList().size());
+		
+	}
 
 }

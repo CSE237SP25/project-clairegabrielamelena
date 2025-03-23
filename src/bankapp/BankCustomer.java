@@ -14,8 +14,10 @@ public class BankCustomer {
 	}
 	
 	//Gabriela
-	public boolean openAccount(String accountName) {
-		return false;
+	public BankAccount openAccount(String accountName) {
+		BankAccount account = new BankAccount(accountName);
+		accountList.add(account);
+		return account;
 	}
 	
 	public boolean transferMoney(BankAccount a, BankAccount b) {
