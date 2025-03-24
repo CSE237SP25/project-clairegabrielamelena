@@ -11,7 +11,9 @@ public class Main {
 		
 		// TODO prompt the user to create the first deposit
 		
-	
+		Menu mainMenu = new Menu();
+		mainMenu.createNewBankCustomerUserDisplay();
+		mainMenu.displayOptions();
 		
 		
 	}

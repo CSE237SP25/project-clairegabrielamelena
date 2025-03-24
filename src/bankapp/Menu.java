@@ -6,12 +6,18 @@ import java.util.Scanner;
 public class Menu {
 	private BankCustomer currentCustomer;
 	ArrayList<BankAccount> accountList;
-	BankAccount currentAccount;
+
+	BankAccount currentAccount; 
+	Scanner keyboardInput;
+
+
 	private int numPrimaryMenuItems = 3;
+
 	//we should think about/ask about the "has-a" framework and whether these instance variables are ok
 	
 	public Menu() {
 		accountList = new ArrayList<BankAccount>();
+		keyboardInput = new Scanner(System.in);
 	}
 	
 	//Gabriela
@@ -20,6 +26,12 @@ public class Menu {
 		//set accountList instance variable from currentCustomer
 		currentCustomer = new BankCustomer(username);
 		return currentCustomer;
+	}
+	
+	public void createNewBankCustomerUserDisplay() {
+		System.out.println("To create a customer account, enter an account name:");
+		String usernameInput = getUserStringInput();
+		this.createCustomerUser(usernameInput);
 	}
 	
 	//Gabriela
@@ -103,7 +115,7 @@ public class Menu {
 	
 	
 	public int getUserMenuInput(int numMenuItems) {
-		Scanner keyboardInput = new Scanner(System.in);
+		//Scanner keyboardInput = new Scanner(System.in);
 		int userInput = keyboardInput.nextInt();
 		while(userInput < 1 || userInput > numMenuItems) {
 			System.out.println("Not a valid input. Please select an option 1 through " + numMenuItems + " on your keyboard.");
@@ -118,7 +130,7 @@ public class Menu {
 	//deal with later
 	//methosd that req user inptu don't need to be tested
 	public double getUserInputDouble() {
-		Scanner keyboardInput = new Scanner(System.in);
+		//Scanner keyboardInput = new Scanner(System.in);
 		double userInput = keyboardInput.nextDouble();
 		return userInput;
 	}
@@ -130,11 +142,10 @@ public class Menu {
 	}
 	
 	public String getUserStringInput() {
-		try (//currentAccount.deposit(amount);
-		Scanner keyboardInput = new Scanner(System.in)) {
-			String userInput = keyboardInput.nextLine();
+		
+			String userInput = keyboardInput.next();
 			return userInput;
-		}
+		
 	}
 	
 	public BankAccount getAccount() {
