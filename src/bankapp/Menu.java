@@ -6,7 +6,8 @@ import java.util.Scanner;
 public class Menu {
 	private BankCustomer currentCustomer;
 	ArrayList<BankAccount> accountList;
-	BankAccount currentAccount; 
+	BankAccount currentAccount;
+	private int numPrimaryMenuItems = 3;
 	//we should think about/ask about the "has-a" framework and whether these instance variables are ok
 	
 	public Menu() {
@@ -59,24 +60,30 @@ public class Menu {
 				+ "\n2. View account list"
 				+ "\n3. Modify an account (deposit, withdraw, or rename)");
 		System.out.println("\nPlease press a number key to indicate your selection.");
-		int userSelection = getUserMenuInput(3); //made a parameter for how many menu options there are. Not sure how to not hard code it or if there's a better way
+		int userSelection = getUserMenuInput(numPrimaryMenuItems); //made a parameter for how many menu options there are. Not sure how to not hard code it or if there's a better way
 		
-		switch (userSelection) {
-			case 1: //Create account
-				System.out.println("Enter account name:");
-				String accountName = getUserStringInput();
-				createBankAccount(accountName);
-				break;
-				
-			case 2: //View account list
-				displayAccountList();
-				break;
-				
-			case 3: //Modify an account (deposit, withdraw, or rename)
-				displayAccountModificationOptions();
-				break;
-		}
+		processMenuSelection(userSelection);
 	}
+	
+	//Claire
+	public void processMenuSelection(int userSelection) {
+		switch (userSelection) {
+		case 1: //Create account
+			System.out.println("Enter account name:");
+			String accountName = getUserStringInput();
+			createBankAccount(accountName);
+			break;
+			
+		case 2: //View account list
+			displayAccountList();
+			break;
+			
+		case 3: //Modify an account (deposit, withdraw, or rename)
+			displayAccountModificationOptions();
+			break;
+	}
+	}
+	
 
 	//Melena
 	public void displayAccountModificationOptions() {
