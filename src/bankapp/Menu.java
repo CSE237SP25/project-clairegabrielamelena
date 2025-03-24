@@ -34,6 +34,7 @@ public class Menu {
 		
 	}
 	
+	
 	//Gabriela
 	public void displayAccountList() {
 		//prints out account names and balances
@@ -62,7 +63,9 @@ public class Menu {
 		
 		switch (userSelection) {
 			case 1: //Create account
-				createBankAccount();
+				System.out.println("Enter account name:");
+				String accountName = getUserStringInput();
+				createBankAccount(accountName);
 				break;
 				
 			case 2: //View account list
