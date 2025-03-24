@@ -22,15 +22,27 @@ public class Menu {
 	}
 	
 	//Gabriela
-	public void createBankAccount() {
+	public void createBankAccount(String accountName) {
 		// TODO take in a string and call bank account constructor
 		// TODO print account successfully created
+		//System.out.println("What do you want to name this account?");
+		//String accountName = getUserStringInput();
+		BankAccount account = currentCustomer.openAccount(accountName);
+		currentAccount = account;
+		accountList = currentCustomer.getAccountList();
+		System.out.println("Account succesfully created");
 		
 	}
 	
 	//Gabriela
 	public void displayAccountList() {
 		//prints out account names and balances
+		//using method made in BankAccount class to print out name+balance of bank account
+		//no unit tests, string output
+		for(BankAccount account : accountList) {
+			account.displayBankAccount();
+			System.out.println();
+		}
 	}
 	
 	//Claire
@@ -107,12 +119,20 @@ public class Menu {
 		//can handle deposits and withdrawls
 	}
 	
-	public void processUserInput(String amount) {
-		//currentAccount.deposit(amount);
+	public String getUserStringInput() {
+		try (//currentAccount.deposit(amount);
+		Scanner keyboardInput = new Scanner(System.in)) {
+			String userInput = keyboardInput.nextLine();
+			return userInput;
+		}
 	}
 	
 	public BankAccount getAccount() {
 		return currentAccount;
+	}
+	
+	public ArrayList<BankAccount> getAccountList(){
+		return accountList;
 	}
 	
 
