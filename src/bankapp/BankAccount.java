@@ -28,4 +28,9 @@ public class BankAccount {
 	public double getCurrentBalance() {
 		return this.balance;
 	}
+	
+	public void displayBankAccount() {
+		System.out.println("Bank Account Name: " + this.accountName);
+		System.out.println("Balance: $" + this.balance);
+	}
 }

@@ -33,5 +33,13 @@ public class BankCustomerTests {
 		assertEquals(emptyAccountList, testUser.getAccountList());
 		
 	}
+	
+	@Test
+	public void testRenameAccount() {
+		BankCustomer testUser = new BankCustomer("testUser");
+		testUser.renameAccount("newName"); 
+		assertEquals("newName", testUser.getUsername());
+
+	}
 
 }
