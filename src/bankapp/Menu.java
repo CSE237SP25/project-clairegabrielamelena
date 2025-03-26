@@ -6,11 +6,18 @@ import java.util.Scanner;
 public class Menu {
 	private BankCustomer currentCustomer;
 	ArrayList<BankAccount> accountList;
+
 	BankAccount currentAccount; 
+	Scanner keyboardInput;
+
+
+	private int numPrimaryMenuItems = 3;
+
 	//we should think about/ask about the "has-a" framework and whether these instance variables are ok
 	
 	public Menu() {
 		accountList = new ArrayList<BankAccount>();
+		keyboardInput = new Scanner(System.in);
 	}
 	
 	//Gabriela
@@ -21,16 +28,35 @@ public class Menu {
 		return currentCustomer;
 	}
 	
+	public void createNewBankCustomerUserDisplay() {
+		System.out.println("To create a customer account, enter an account name:");
+		String usernameInput = getUserStringInput();
+		this.createCustomerUser(usernameInput);
+	}
+	
 	//Gabriela
-	public void createBankAccount() {
+	public void createBankAccount(String accountName) {
 		// TODO take in a string and call bank account constructor
 		// TODO print account successfully created
+		//System.out.println("What do you want to name this account?");
+		//String accountName = getUserStringInput();
+		BankAccount account = currentCustomer.openAccount(accountName);
+		currentAccount = account;
+		accountList = currentCustomer.getAccountList();
+		System.out.println("Account succesfully created");
 		
 	}
+	
 	
 	//Gabriela
 	public void displayAccountList() {
 		//prints out account names and balances
+		//using method made in BankAccount class to print out name+balance of bank account
+		//no unit tests, string output
+		for(BankAccount account : accountList) {
+			account.displayBankAccount();
+			System.out.println();
+		}
 	}
 	
 	//Claire
@@ -46,22 +72,30 @@ public class Menu {
 				+ "\n2. View account list"
 				+ "\n3. Modify an account (deposit, withdraw, or rename)");
 		System.out.println("\nPlease press a number key to indicate your selection.");
-		int userSelection = getUserMenuInput(3); //made a parameter for how many menu options there are. Not sure how to not hard code it or if there's a better way
+		int userSelection = getUserMenuInput(numPrimaryMenuItems); //made a parameter for how many menu options there are. Not sure how to not hard code it or if there's a better way
 		
-		switch (userSelection) {
-			case 1: //Create account
-				createBankAccount();
-				break;
-				
-			case 2: //View account list
-				displayAccountList();
-				break;
-				
-			case 3: //Modify an account (deposit, withdraw, or rename)
-				displayAccountModificationOptions();
-				break;
-		}
+		processMenuSelection(userSelection);
 	}
+	
+	//Claire
+	public void processMenuSelection(int userSelection) {
+		switch (userSelection) {
+		case 1: //Create account
+			System.out.println("Enter account name:");
+			String accountName = getUserStringInput();
+			createBankAccount(accountName);
+			break;
+			
+		case 2: //View account list
+			displayAccountList();
+			break;
+			
+		case 3: //Modify an account (deposit, withdraw, or rename)
+			displayAccountModificationOptions();
+			break;
+	}
+	}
+	
 
 	//Melena
 	public void displayAccountModificationOptions() {
@@ -81,7 +115,7 @@ public class Menu {
 	
 	
 	public int getUserMenuInput(int numMenuItems) {
-		Scanner keyboardInput = new Scanner(System.in);
+		//Scanner keyboardInput = new Scanner(System.in);
 		int userInput = keyboardInput.nextInt();
 		while(userInput < 1 || userInput > numMenuItems) {
 			System.out.println("Not a valid input. Please select an option 1 through " + numMenuItems + " on your keyboard.");
@@ -96,7 +130,7 @@ public class Menu {
 	//deal with later
 	//methosd that req user inptu don't need to be tested
 	public double getUserInputDouble() {
-		Scanner keyboardInput = new Scanner(System.in);
+		//Scanner keyboardInput = new Scanner(System.in);
 		double userInput = keyboardInput.nextDouble();
 		return userInput;
 	}
@@ -107,12 +141,19 @@ public class Menu {
 		//can handle deposits and withdrawls
 	}
 	
-	public void processUserInput(String amount) {
-		//currentAccount.deposit(amount);
+	public String getUserStringInput() {
+		
+			String userInput = keyboardInput.next();
+			return userInput;
+		
 	}
 	
 	public BankAccount getAccount() {
 		return currentAccount;
+	}
+	
+	public ArrayList<BankAccount> getAccountList(){
+		return accountList;
 	}
 	
 
