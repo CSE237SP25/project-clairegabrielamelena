@@ -13,4 +13,11 @@ What user stories do you intend to complete next iteration? -Eventually, we plan
 
 Is there anything that you implemented but doesn't currently work?
 
+Bank account modification options are not working as expected. Also, in future want message confirmation for displaying an empty bank account list.
+
 What commands are needed to compile and run your code from the command line (please provide a script that users can run to launch your program)?
+
+Run script, 
+
+./script.sh on command line. Might need change modifications (chmod 777 script.sh)
+
