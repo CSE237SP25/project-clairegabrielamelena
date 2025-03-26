@@ -118,6 +118,30 @@ public class Menu {
 		int userSelection = getUserMenuInput(numPrimaryMenuItems); 
 
 	}	
+	
+	
+	public void processAccountSelection(int userSelection) {
+		switch (userSelection) {
+		case 1: //deposit
+			System.out.println("Enter amount to deposit (must greater than 0:");
+			double depositAmount = getUserDoubleInput(); 
+			currentAccount.deposit(depositAmount); 
+			break;
+
+		case 2: //withdraw
+			System.out.println("Enter amount to deposit (must greater than 0:");
+			double withdrawlAmount = getUserDoubleInput(); 
+			currentAccount.deposit(withdrawlAmount);
+			break;
+
+		case 3: //rename
+			System.out.println("Enter a new account name (must be at least one 1 character and be a unique name");
+			String rename = getUserStringInput();
+			currentCustomer.renameAccount(rename); 
+			break;
+		}
+	}
+
 
 
 	public int getUserMenuInput(int numMenuItems) {
@@ -136,6 +160,12 @@ public class Menu {
 	//deal with later
 	//methosd that req user inptu don't need to be tested
 	public double getUserInputDouble() {
+		//Scanner keyboardInput = new Scanner(System.in);
+		double userInput = keyboardInput.nextDouble();
+		return userInput;
+	}
+
+	public double getUserDoubleInput() {
 		//Scanner keyboardInput = new Scanner(System.in);
 		double userInput = keyboardInput.nextDouble();
 		return userInput;
