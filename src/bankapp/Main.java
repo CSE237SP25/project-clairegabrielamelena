@@ -13,8 +13,9 @@ public class Main {
 		
 		Menu mainMenu = new Menu();
 		mainMenu.createNewBankCustomerUserDisplay();
-		mainMenu.displayOptions();
-		
+		while(true) {
+			mainMenu.displayOptions();
+		}
 		
 	}
 }
