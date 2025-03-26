@@ -33,7 +33,8 @@ public class BankCustomer {
 	}
 	
 	//Melena
-	public boolean renameAccount(String newAccountName) {
-		return false;
+	public String renameAccount(String newAccountName) {
+		this.username = newAccountName; 
+		return this.getUsername(); 
 	}
 }

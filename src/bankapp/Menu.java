@@ -98,18 +98,24 @@ public class Menu {
 	
 
 	//Melena
-	public void displayAccountModificationOptions() {
-		// TODO print options for account
-		//  the number that the user inputed
-		//handle invalid value case
-		
-		//set currentAccount instance variable to the account selected by the user
-		
-		
-		//TODO print options for account modifications
-		// deposit, withdraw, rename conditionals
-		// TODO execute relevant methods according to the selection
-	}
+public void displayAccountModificationOptions() {
+	// TODO print options for account
+	//  the number that the user inputed
+	//handle invalid value case
+
+	//set currentAccount instance variable to the account selected by the user
+
+
+	//TODO print options for account modifications
+	// deposit, withdraw, rename conditionals
+	// TODO execute relevant methods according to the selection
+
+	System.out.println("Menu Options:"
+			+ "\n1. Deposit"
+			+ "\n2. Withdraw"
+			+ "\n3. Rename");
+	System.out.println("\nPlease press a number key to indicate your selection.");
+	int userSelection = getUserMenuInput(numPrimaryMenuItems); 
 	
 	
 	
