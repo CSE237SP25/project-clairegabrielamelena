@@ -35,6 +35,12 @@ public class BankCustomerTests {
 	}
 	
 	@Test
+	public void testRenameAccount() {
+		BankCustomer testUser = new BankCustomer("testUser");
+		testUser.renameAccount("newName"); 
+		assertEquals("newName", testUser.getUsername());
+
+
 	public void testCustomerBankAccountCreation() {
 		BankCustomer testUser = new BankCustomer("testUser");
 		BankAccount testBankAccount = testUser.openAccount("testing");
