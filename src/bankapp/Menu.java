@@ -25,11 +25,13 @@ public class Menu {
 		//set as currentCustomer
 		//set accountList instance variable from currentCustomer
 		currentCustomer = new BankCustomer(username);
+		System.out.println("Welcome, " + username +". Your bank customer account has been created succesfully.");
+		System.out.println();
 		return currentCustomer;
 	}
 
 	public void createNewBankCustomerUserDisplay() {
-		System.out.println("To create a customer account, enter an account name:");
+		System.out.println("To create a customer user account, enter a username: ");
 		String usernameInput = getUserStringInput();
 		this.createCustomerUser(usernameInput);
 	}
@@ -43,7 +45,8 @@ public class Menu {
 		BankAccount account = currentCustomer.openAccount(accountName);
 		currentAccount = account;
 		accountList = currentCustomer.getAccountList();
-		System.out.println("Account succesfully created");
+		System.out.println("Account " + accountName +"  succesfully created.");
+		System.out.println();
 
 	}
 
@@ -53,6 +56,11 @@ public class Menu {
 		//prints out account names and balances
 		//using method made in BankAccount class to print out name+balance of bank account
 		//no unit tests, string output
+		if(accountList.isEmpty()) {
+			System.out.println("There are no bank accounts on file.");
+			System.out.println();
+			return;
+		}
 		for(BankAccount account : accountList) {
 			account.displayBankAccount();
 			System.out.println();
@@ -68,10 +76,11 @@ public class Menu {
 
 		//also do if statements or switch statements that executes relevant methods according to the menuChoice passed in
 		System.out.println("Menu Options:"
-				+ "\n1. Create account"
-				+ "\n2. View account list"
-				+ "\n3. Modify an account (deposit, withdraw, or rename)");
+				+ "\n1. Create a new bank account"
+				+ "\n2. View a list of your bank accounts"
+				+ "\n3. Modify a bank account (deposit, withdraw, or rename)");
 		System.out.println("\nPlease press a number key to indicate your selection.");
+		System.out.println();
 		int userSelection = getUserMenuInput(numPrimaryMenuItems); //made a parameter for how many menu options there are. Not sure how to not hard code it or if there's a better way
 
 		processMenuSelection(userSelection);
@@ -82,6 +91,7 @@ public class Menu {
 		switch (userSelection) {
 		case 1: //Create account
 			System.out.println("Enter account name:");
+			keyboardInput.nextLine();
 			String accountName = getUserStringInput();
 			createBankAccount(accountName);
 			break;
@@ -110,11 +120,12 @@ public class Menu {
 		// deposit, withdraw, rename conditionals
 		// TODO execute relevant methods according to the selection
 
-		System.out.println("Menu Options:"
-				+ "\n1. Deposit"
-				+ "\n2. Withdraw"
-				+ "\n3. Rename");
+		System.out.println("Bank account modification menu Options:"
+				+ "\n1. Make a deposit"
+				+ "\n2. Make a withdrawal"
+				+ "\n3. Rename a bank account");
 		System.out.println("\nPlease press a number key to indicate your selection.");
+		System.out.println();
 		int userSelection = getUserMenuInput(numPrimaryMenuItems); 
 
 	}	
@@ -178,8 +189,8 @@ public class Menu {
 	}
 
 	public String getUserStringInput() {
-
-		String userInput = keyboardInput.next();
+		//keyboardInput.nextLine();
+		String userInput = keyboardInput.nextLine();
 		return userInput;
 
 	}
