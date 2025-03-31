@@ -123,15 +123,17 @@ public class Menu {
 		System.out.println("Bank account modification menu Options:"
 				+ "\n1. Make a deposit"
 				+ "\n2. Make a withdrawal"
-				+ "\n3. Rename a bank account");
+				+ "\n3. Rename bank account");
 		System.out.println("\nPlease press a number key to indicate your selection.");
 		System.out.println();
 		int userSelection = getUserMenuInput(numPrimaryMenuItems); 
 
+		processAccountModification(userSelection); 
+
 	}	
 	
 	
-	public void processAccountSelection(int userSelection) {
+	public void processAccountModification(int userSelection) {
 		switch (userSelection) {
 		case 1: //deposit
 			System.out.println("Enter amount to deposit (must greater than 0:");
@@ -140,7 +142,7 @@ public class Menu {
 			break;
 
 		case 2: //withdraw
-			System.out.println("Enter amount to deposit (must greater than 0:");
+			System.out.println("Enter amount to withdraw (must greater than 0:");
 			double withdrawlAmount = getUserDoubleInput(); 
 			currentAccount.deposit(withdrawlAmount);
 			break;
@@ -171,8 +173,13 @@ public class Menu {
 	//deal with later
 	//methosd that req user inptu don't need to be tested
 	public double getUserInputDouble() {
-		//Scanner keyboardInput = new Scanner(System.in);
 		double userInput = keyboardInput.nextDouble();
+		
+		while(userInput < 0) {
+			System.out.println("Not a valid input. Please enter a number greater than 0.");
+			userInput = keyboardInput.nextDouble();
+		}
+		
 		return userInput;
 	}
 
