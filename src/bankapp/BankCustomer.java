@@ -20,8 +20,17 @@ public class BankCustomer {
 		return account;
 	}
 	
-	public boolean transferMoney(BankAccount a, BankAccount b) {
-		return false;
+	public void transferMoney(BankAccount a, BankAccount b, int amount) {
+		try {
+			a.withdraw(amount); 
+			b.deposit(amount);
+		}
+		catch (IllegalArgumentException e) {
+		    // Handle the exception
+		    System.out.println("Insufficent funds. Unable to complete transfer");
+		}
+		
+	
 	}
 	
 	public ArrayList<BankAccount> getAccountList(){

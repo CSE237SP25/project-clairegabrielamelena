@@ -40,7 +40,8 @@ public class BankCustomerTests {
 		testUser.renameAccount("newName"); 
 		assertEquals("newName", testUser.getUsername());
 	}
-
+	
+	@Test
 	public void testCustomerBankAccountCreation() {
 		BankCustomer testUser = new BankCustomer("testUser");
 		BankAccount testBankAccount = testUser.openAccount("testing");
@@ -49,4 +50,15 @@ public class BankCustomerTests {
 		assertEquals(testBankAccount.getCurrentBalance(), 0, 0.01);
 	}
 
+	@Test
+	public void testTransferMoney() {
+		BankCustomer testUser = new BankCustomer("testUser");
+		BankAccount testBankAccount1 = testUser.openAccount("testing1");
+		BankAccount testBankAccount2 = testUser.openAccount("testing2");
+		
+		testBankAccount1.deposit(100); 
+		testUser.transferMoney(testBankAccount1, testBankAccount2, 100);
+		assertEquals(testUser.getAccountList().size(), 2);
+		assertEquals(testBankAccount1.getCurrentBalance(), 0, 0) ; 
+	}
 }
