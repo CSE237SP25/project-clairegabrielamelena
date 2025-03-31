@@ -5,7 +5,8 @@ import java.util.Scanner;
 
 public class Menu {
 	private BankCustomer currentCustomer;
-	ArrayList<BankAccount> accountList;
+	
+	private ArrayList<BankAccount> bankAccountList;
 
 	BankAccount currentAccount; 
 	Scanner keyboardInput;
@@ -17,7 +18,8 @@ public class Menu {
 	//we should think about/ask about the "has-a" framework and whether these instance variables are ok
 
 	public Menu() {
-		accountList = new ArrayList<BankAccount>();
+		bankAccountList = new ArrayList<BankAccount>();
+		
 		keyboardInput = new Scanner(System.in);
 	}
 
@@ -28,6 +30,7 @@ public class Menu {
 		currentCustomer = new BankCustomer(username);
 		System.out.println("Welcome, " + username +". Your bank customer profile has been created succesfully.");
 		System.out.println();
+		
 		return currentCustomer;
 	}
 
@@ -45,7 +48,7 @@ public class Menu {
 		//String accountName = getUserStringInput();
 		BankAccount account = currentCustomer.openAccount(accountName);
 		currentAccount = account;
-		accountList = currentCustomer.getAccountList();
+		bankAccountList = currentCustomer.getAccountList();
 		System.out.println("Account " + accountName +"  succesfully created.");
 		System.out.println();
 
@@ -57,12 +60,12 @@ public class Menu {
 		//prints out account names and balances
 		//using method made in BankAccount class to print out name+balance of bank account
 		//no unit tests, string output
-		if(accountList.isEmpty()) {
+		if(bankAccountList.isEmpty()) {
 			System.out.println("There are no bank accounts on file.");
 			System.out.println();
 			return;
 		}
-		for(BankAccount account : accountList) {
+		for(BankAccount account : bankAccountList) {
 			account.displayBankAccount();
 			System.out.println();
 		}
@@ -149,12 +152,13 @@ public class Menu {
 			System.out.println("Enter amount to deposit (must greater than 0:");
 			double depositAmount = getUserDoubleInput(); 
 			currentAccount.deposit(depositAmount); 
+
 		}
 		else if (userSelection == 2) { //withdraw
 			System.out.println("Enter amount to withdraw (must greater than 0:");
-			double withdrawlAmount = getUserDoubleInput(); 
+      double withdrawlAmount = getUserDoubleInput(); 
 			currentAccount.deposit(withdrawlAmount);
-		}
+    }
 
 		else if (userSelection == 3) { //rename
 			System.out.println("Enter a new account name (must be at least one 1 character and be a unique name");
@@ -199,7 +203,7 @@ public class Menu {
 		double userInput = keyboardInput.nextDouble();
 		
 		while(userInput < 0) {
-			System.out.println("Not a valid input. Please enter a number greater than 0.");
+			System.out.println("Not a valid input. Please enter a number greater than 0):");
 			userInput = keyboardInput.nextDouble();
 		}
 		
@@ -230,8 +234,10 @@ public class Menu {
 	}
 
 	public ArrayList<BankAccount> getAccountList(){
-		return accountList;
+		return bankAccountList;
 	}
+	
+
 
 
 }

@@ -11,11 +11,19 @@ public class Main {
 		
 		// TODO prompt the user to create the first deposit
 		
-		Menu mainMenu = new Menu();
-		mainMenu.createNewBankCustomerUserDisplay();
-		while(true) {
-			mainMenu.displayOptions();
+		Menu mainBankCustomerMenu = new Menu();
+		AdminMenu mainAdminMenu = new AdminMenu();
+		
+		
+		if(mainBankCustomerMenu.getCustomerList().size() == 0) {
+			mainBankCustomerMenu.createNewBankCustomerUserDisplay();
 		}
+		
+		while(true) {
+			mainBankCustomerMenu.displayOptions();
+		}
+		
+
 		
 	}
 }
