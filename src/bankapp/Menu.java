@@ -88,21 +88,20 @@ public class Menu {
 
 	//Claire
 	public void processMenuSelection(int userSelection) {
-		switch (userSelection) {
-		case 1: //Create account
+		if(userSelection == 1) { //Create account
 			System.out.println("Enter account name:");
 			keyboardInput.nextLine();
 			String accountName = getUserStringInput();
 			createBankAccount(accountName);
-			break;
-
-		case 2: //View account list
+		}
+		else if(userSelection == 2) { //View account list
 			displayAccountList();
-			break;
-
-		case 3: //Modify an account (deposit, withdraw, or rename)
+		}
+		else if(userSelection == 3) { //Modify an account (deposit, withdraw, or rename)
 			displayAccountModificationOptions();
-			break;
+		}
+		else {
+			throw new IllegalArgumentException("Error: not a valid menu selection.");
 		}
 	}
 

@@ -1,6 +1,9 @@
 package tests;
 
 import bankapp.Menu;
+
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
@@ -17,5 +20,28 @@ public class MenuTests {
 		assertEquals(1, testMenu.getAccountList().size());
 		
 	}
+	@Test
+	public void testInvalidMenuSelection() {
+		Menu testMenu = new Menu();
+		try {
+			testMenu.processMenuSelection(100);
+			fail();
+        } catch (IllegalArgumentException e) {
+        	assertTrue(e != null);
+        }
+	}
+	
+	@Test
+	public void testNegativeMenuSelection() {
+		Menu testMenu = new Menu();
+		try {
+			testMenu.processMenuSelection(-1);
+			fail();
+        } catch (IllegalArgumentException e) {
+        	assertTrue(e != null);
+        }
+	}
+	
 
 }
+
