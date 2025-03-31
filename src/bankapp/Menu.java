@@ -11,7 +11,8 @@ public class Menu {
 	Scanner keyboardInput;
 
 
-	private int numPrimaryMenuItems = 3;
+	private int NUM_PRIMARY_MENU_ITEMS = 5;
+	private int NUM_MODIFICATION_SUBMENU_ITEMS = 4;
 
 	//we should think about/ask about the "has-a" framework and whether these instance variables are ok
 
@@ -25,13 +26,13 @@ public class Menu {
 		//set as currentCustomer
 		//set accountList instance variable from currentCustomer
 		currentCustomer = new BankCustomer(username);
-		System.out.println("Welcome, " + username +". Your bank customer account has been created succesfully.");
+		System.out.println("Welcome, " + username +". Your bank customer profile has been created succesfully.");
 		System.out.println();
 		return currentCustomer;
 	}
 
 	public void createNewBankCustomerUserDisplay() {
-		System.out.println("To create a customer user account, enter a username: ");
+		System.out.println("To create a customer user profile, enter a username: ");
 		String usernameInput = getUserStringInput();
 		this.createCustomerUser(usernameInput);
 	}
@@ -78,10 +79,12 @@ public class Menu {
 		System.out.println("Menu Options:"
 				+ "\n1. Create a new bank account"
 				+ "\n2. View a list of your bank accounts"
-				+ "\n3. Modify a bank account (deposit, withdraw, or rename)");
+				+ "\n3. Modify a bank account (deposit, withdraw, or rename)"
+				+ "\n4. Transfer money between bank accounts"
+				+ "\n5. Exit bank customer profile");
 		System.out.println("\nPlease press a number key to indicate your selection.");
 		System.out.println();
-		int userSelection = getUserMenuInput(numPrimaryMenuItems); //made a parameter for how many menu options there are. Not sure how to not hard code it or if there's a better way
+		int userSelection = getUserMenuInput(NUM_PRIMARY_MENU_ITEMS); //made a parameter for how many menu options there are. Not sure how to not hard code it or if there's a better way
 
 		processMenuSelection(userSelection);
 	}
@@ -89,7 +92,7 @@ public class Menu {
 	//Claire
 	public void processMenuSelection(int userSelection) {
 		if(userSelection == 1) { //Create account
-			System.out.println("Enter account name:");
+			System.out.println("Enter bank account name:");
 			keyboardInput.nextLine();
 			String accountName = getUserStringInput();
 			createBankAccount(accountName);
@@ -99,6 +102,14 @@ public class Menu {
 		}
 		else if(userSelection == 3) { //Modify an account (deposit, withdraw, or rename)
 			displayAccountModificationOptions();
+		}
+		else if(userSelection == 4) { //Transfer money between bank accounts
+			currentCustomer.transferMoney(BankAccount a, BankAccount b, int amount);
+		}
+		else if(userSelection == 5) { //Leave
+			//THIS NEEDS TO BE FIXED SO IT BRINGS YOU BACK TO WELCOME MENU
+			//Maybe modify a global variable?
+			return;
 		}
 		else {
 			throw new IllegalArgumentException("Error: not a valid menu selection.");
@@ -119,13 +130,14 @@ public class Menu {
 		// deposit, withdraw, rename conditionals
 		// TODO execute relevant methods according to the selection
 
-		System.out.println("Bank account modification menu Options:"
+		System.out.println("Bank Account Modification Menu Options:"
 				+ "\n1. Make a deposit"
 				+ "\n2. Make a withdrawal"
-				+ "\n3. Rename bank account");
+				+ "\n3. Rename bank account"
+				+ "\n4. Go back");
 		System.out.println("\nPlease press a number key to indicate your selection.");
 		System.out.println();
-		int userSelection = getUserMenuInput(numPrimaryMenuItems); 
+		int userSelection = getUserMenuInput(NUM_MODIFICATION_SUBMENU_ITEMS); 
 
 		processAccountModification(userSelection); 
 
@@ -133,26 +145,30 @@ public class Menu {
 	
 	
 	public void processAccountModification(int userSelection) {
-		switch (userSelection) {
-		case 1: //deposit
+		if(userSelection == 1) { //deposit
 			System.out.println("Enter amount to deposit (must greater than 0:");
 			double depositAmount = getUserDoubleInput(); 
 			currentAccount.deposit(depositAmount); 
-			break;
-
-		case 2: //withdraw
+		}
+		else if (userSelection == 2) { //withdraw
 			System.out.println("Enter amount to withdraw (must greater than 0:");
 			double withdrawlAmount = getUserDoubleInput(); 
 			currentAccount.deposit(withdrawlAmount);
-			break;
+		}
 
-		case 3: //rename
+		else if (userSelection == 3) { //rename
 			System.out.println("Enter a new account name (must be at least one 1 character and be a unique name");
 			String rename = getUserStringInput();
 			currentCustomer.renameAccount(rename); 
-			break;
+		}
+		else if (userSelection == 4) { //go back
+			return;
+		}
+		else {
+			throw new IllegalArgumentException("Error: not a valid menu selection.");
 		}
 	}
+	
 
 
 
@@ -165,7 +181,15 @@ public class Menu {
 		}
 		return userInput;
 	}
+	
+	
 
+	public BankAccount selectBankAccount() {
+		//TODO 
+		return null;
+	}
+	
+	
 
 	//TODO maybe make a getAccountList() getter? or alternative. but make sure testValidMenuSelection works in MenuTests.java
 
