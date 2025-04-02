@@ -10,7 +10,7 @@ public class AdminMenu {
 	Scanner keyboardInput;
 	
 	
-	public AdminMenu(Menu associatedCustomerMenu) {
+	public AdminMenu() {
 		//customerMenu = associatedCustomerMenu;
 		keyboardInput = new Scanner(System.in);
 	}
