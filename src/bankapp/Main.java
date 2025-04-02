@@ -15,7 +15,7 @@ public class Main {
 		AdminMenu mainAdminMenu = new AdminMenu();
 		
 		
-		if(mainBankCustomerMenu.getCustomerList().size() == 0) {
+		if(mainBankCustomerMenu.getCurrentCustomer() == null) {
 			mainBankCustomerMenu.createNewBankCustomerUserDisplay();
 		}
 		

@@ -21,6 +21,7 @@ public class Menu {
 		bankAccountList = new ArrayList<BankAccount>();
 		
 		keyboardInput = new Scanner(System.in);
+		currentCustomer = null;
 	}
 
 	//Gabriela
@@ -229,12 +230,16 @@ public class Menu {
 
 	}
 
-	public BankAccount getAccount() {
+	public BankAccount getBankAccount() {
 		return currentAccount;
 	}
 
-	public ArrayList<BankAccount> getAccountList(){
+	public ArrayList<BankAccount> getBankAccountList(){
 		return bankAccountList;
+	}
+	
+	public BankCustomer getCurrentCustomer() {
+		return currentCustomer;
 	}
 	
 
