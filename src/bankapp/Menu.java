@@ -14,6 +14,7 @@ public class Menu {
 
 	private int NUM_PRIMARY_MENU_ITEMS = 5;
 	private int NUM_MODIFICATION_SUBMENU_ITEMS = 4;
+	//private static  AdminMenu associatedAdminMenu;
 
 	//we should think about/ask about the "has-a" framework and whether these instance variables are ok
 
@@ -22,6 +23,9 @@ public class Menu {
 		
 		keyboardInput = new Scanner(System.in);
 		currentCustomer = null;
+		//associatedAdminMenu = enteredAdminMenu;
+		
+		
 	}
 
 	//Gabriela
@@ -31,6 +35,7 @@ public class Menu {
 		currentCustomer = new BankCustomer(username);
 		System.out.println("Welcome, " + username +". Your bank customer profile has been created succesfully.");
 		System.out.println();
+		Main.mainBank.addBankCustomer(currentCustomer);
 		
 		return currentCustomer;
 	}
