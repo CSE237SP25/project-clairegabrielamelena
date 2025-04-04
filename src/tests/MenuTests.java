@@ -42,6 +42,17 @@ public class MenuTests {
         }
 	}
 	
+	@Test
+	public void testInvalidAccountModification() {
+		Menu testMenu = new Menu();
+		try {
+			testMenu.processAccountModification(50); 
+			fail();
+        } catch (IllegalArgumentException e) {
+        	assertTrue(e != null);
+        }
+	}
+	
 
 }
 

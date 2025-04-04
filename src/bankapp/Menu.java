@@ -107,7 +107,7 @@ public class Menu {
 			displayAccountModificationOptions();
 		}
 		else if(userSelection == 4) { //Transfer money between bank accounts
-			currentCustomer.transferMoney(BankAccount a, BankAccount b, int amount);
+		//	currentCustomer.transferMoney(BankAccount a, BankAccount b, int amount);
 		}
 		else if(userSelection == 5) { //Leave
 			//THIS NEEDS TO BE FIXED SO IT BRINGS YOU BACK TO WELCOME MENU
@@ -120,19 +120,23 @@ public class Menu {
 	}
 
 
+	public void selectAccount() {
+		int i = 1; 
+		for(BankAccount account : bankAccountList) {
+			System.out.print(i); 
+			account.displayBankAccount();
+			System.out.println();
+			i++;
+		}
+		System.out.println("Enter a number between 1 and "+ bankAccountList.size() + "to select which account to modify"); 
+		int accountSelection = getUserMenuInput(bankAccountList.size()) ;// has to be greater than 1 which is not true T^T
+		this.currentAccount = bankAccountList.get(accountSelection-1); 
+		}
+	
+	
 	//Melena
 	public void displayAccountModificationOptions() {
-		// TODO print options for account
-		//  the number that the user inputed
-		//handle invalid value case
-
-		//set currentAccount instance variable to the account selected by the user
-
-
-		//TODO print options for account modifications
-		// deposit, withdraw, rename conditionals
-		// TODO execute relevant methods according to the selection
-
+		
 		System.out.println("Bank Account Modification Menu Options:"
 				+ "\n1. Make a deposit"
 				+ "\n2. Make a withdrawal"
@@ -141,8 +145,9 @@ public class Menu {
 		System.out.println("\nPlease press a number key to indicate your selection.");
 		System.out.println();
 		int userSelection = getUserMenuInput(NUM_MODIFICATION_SUBMENU_ITEMS); 
-
+		selectAccount(); 
 		processAccountModification(userSelection); 
+		
 
 	}	
 	
@@ -152,18 +157,20 @@ public class Menu {
 			System.out.println("Enter amount to deposit (must greater than 0:");
 			double depositAmount = getUserDoubleInput(); 
 			currentAccount.deposit(depositAmount); 
-
+			System.out.println("Deposit Successful");
 		}
 		else if (userSelection == 2) { //withdraw
 			System.out.println("Enter amount to withdraw (must greater than 0:");
       double withdrawlAmount = getUserDoubleInput(); 
-			currentAccount.deposit(withdrawlAmount);
+			currentAccount.withdraw(withdrawlAmount);
+			System.out.println("Withdrawl Successful");
     }
 
 		else if (userSelection == 3) { //rename
 			System.out.println("Enter a new account name (must be at least one 1 character and be a unique name");
 			String rename = getUserStringInput();
 			currentCustomer.renameAccount(rename); 
+			System.out.println("Rename Successful");
 		}
 		else if (userSelection == 4) { //go back
 			return;
@@ -186,12 +193,6 @@ public class Menu {
 		return userInput;
 	}
 	
-	
-
-	public BankAccount selectBankAccount() {
-		//TODO 
-		return null;
-	}
 	
 	
 
