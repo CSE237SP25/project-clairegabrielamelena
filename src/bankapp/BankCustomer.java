@@ -20,14 +20,17 @@ public class BankCustomer {
 		return account;
 	}
 	
-	public void transferMoney(BankAccount a, BankAccount b, int amount) {
+	public void transferMoney(BankAccount sourceAccount, BankAccount destinationAccount, double amount) {
+	    if (sourceAccount == destinationAccount) {
+	        throw new IllegalArgumentException("Source and destination accounts must be different.");
+	    }
 		try {
-			a.withdraw(amount); 
-			b.deposit(amount);
+			sourceAccount.withdraw(amount); 
+			destinationAccount.deposit(amount);
 		}
 		catch (IllegalArgumentException e) {
 		    // Handle the exception
-		    System.out.println("Insufficent funds. Unable to complete transfer");
+		    System.out.println("Insufficent funds. Unable to complete transfer.");
 		}
 		
 	

@@ -55,7 +55,7 @@ public class Menu {
 		BankAccount account = currentCustomer.openAccount(accountName);
 		currentAccount = account;
 		bankAccountList = currentCustomer.getAccountList();
-		System.out.println("Account " + accountName +"  succesfully created.");
+		System.out.println("Account " + accountName +" succesfully created.");
 		System.out.println();
 
 	}
@@ -71,9 +71,12 @@ public class Menu {
 			System.out.println();
 			return;
 		}
+		int i = 1;
 		for(BankAccount account : bankAccountList) {
+			System.out.print(i + ". "); 
 			account.displayBankAccount();
 			System.out.println();
+			i++;
 		}
 	}
 
@@ -113,7 +116,7 @@ public class Menu {
 			displayAccountModificationOptions();
 		}
 		else if(userSelection == 4) { //Transfer money between bank accounts
-		//	currentCustomer.transferMoney(BankAccount a, BankAccount b, int amount);
+			processTransfer();
 		}
 		else if(userSelection == 5) { //Leave
 			//THIS NEEDS TO BE FIXED SO IT BRINGS YOU BACK TO WELCOME MENU
@@ -124,17 +127,35 @@ public class Menu {
 			throw new IllegalArgumentException("Error: not a valid menu selection.");
 		}
 	}
-
+	
+	public void processTransfer() {
+		System.out.println("Transfer initiated. Available Accounts: ");
+		displayAccountList();
+		
+		System.out.println("Enter a number between 1 and "+ bankAccountList.size() + " to select the source account.");
+		int sourceSelection = getUserMenuInput(bankAccountList.size()) ;
+		BankAccount sourceAccount = bankAccountList.get(sourceSelection-1); 
+		
+		System.out.println("Enter a number between 1 and "+ bankAccountList.size() + " to select the destination account.");
+		int destinationSelection = getUserMenuInput(bankAccountList.size());
+		while(destinationSelection == sourceSelection) {
+			System.out.print("The destination account cannot be the same as the source account. ");
+			System.out.println("Enter a number between 1 and "+ bankAccountList.size() + " to select the destination account.");
+			destinationSelection = getUserMenuInput(bankAccountList.size());
+		}
+		BankAccount destinationAccount = bankAccountList.get(destinationSelection-1);
+		
+		System.out.println();
+		System.out.println("Enter the amount to transfer from "+ sourceAccount.getAccountName() + " to " + destinationAccount.getAccountName() + ":");
+		double transferAmount = getUserInputDouble();
+		
+		currentCustomer.transferMoney(sourceAccount, destinationAccount, transferAmount);
+		//System.out.println("Transfer completed."); can't go here because then it prints even if the transfer was unsuccessful.
+	}
 
 	public void selectAccount() {
-		int i = 1; 
-		for(BankAccount account : bankAccountList) {
-			System.out.print(i); 
-			account.displayBankAccount();
-			System.out.println();
-			i++;
-		}
-		System.out.println("Enter a number between 1 and "+ bankAccountList.size() + "to select which account to modify"); 
+		displayAccountList();
+		System.out.println("Enter a number between 1 and "+ bankAccountList.size() + " to select which account to modify"); 
 		int accountSelection = getUserMenuInput(bankAccountList.size()) ;// has to be greater than 1 which is not true T^T
 		this.currentAccount = bankAccountList.get(accountSelection-1); 
 		}
@@ -160,13 +181,13 @@ public class Menu {
 	
 	public void processAccountModification(int userSelection) {
 		if(userSelection == 1) { //deposit
-			System.out.println("Enter amount to deposit (must greater than 0:");
+			System.out.println("Enter amount to deposit (must greater than 0):");
 			double depositAmount = getUserDoubleInput(); 
 			currentAccount.deposit(depositAmount); 
 			System.out.println("Deposit Successful");
 		}
 		else if (userSelection == 2) { //withdraw
-			System.out.println("Enter amount to withdraw (must greater than 0:");
+			System.out.println("Enter amount to withdraw (must greater than 0):");
       double withdrawlAmount = getUserDoubleInput(); 
 			currentAccount.withdraw(withdrawlAmount);
 			System.out.println("Withdrawl Successful");
@@ -210,7 +231,7 @@ public class Menu {
 		double userInput = keyboardInput.nextDouble();
 		
 		while(userInput < 0) {
-			System.out.println("Not a valid input. Please enter a number greater than 0):");
+			System.out.println("Not a valid input. Please enter a number greater than 0:");
 			userInput = keyboardInput.nextDouble();
 		}
 		
