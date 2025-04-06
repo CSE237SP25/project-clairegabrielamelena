@@ -1,6 +1,8 @@
 package bankapp;
 
 public class Main {
+	
+	public static Bank mainBank;
 
 	public static void main(String[] args) {
 		// TODO prompt the user to create a bank customer user
@@ -11,11 +13,12 @@ public class Main {
 		
 		// TODO prompt the user to create the first deposit
 		
-		Menu mainBankCustomerMenu = new Menu();
+		Bank mainBank = new Bank();
 		AdminMenu mainAdminMenu = new AdminMenu();
+		Menu mainBankCustomerMenu = new Menu();
 		
 		
-		if(mainBankCustomerMenu.getCustomerList().size() == 0) {
+		if(mainBankCustomerMenu.getCurrentCustomer() == null) {
 			mainBankCustomerMenu.createNewBankCustomerUserDisplay();
 		}
 		

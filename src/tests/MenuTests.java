@@ -17,7 +17,7 @@ public class MenuTests {
 		Menu testMenu = new Menu();
 		testMenu.createCustomerUser("testUser");
 		testMenu.createBankAccount("name");
-		assertEquals(1, testMenu.getAccountList().size());
+		assertEquals(1, testMenu.getBankAccountList().size());
 		
 	}
 	@Test
@@ -52,6 +52,21 @@ public class MenuTests {
         	assertTrue(e != null);
         }
 	}
+	
+	public void testGetCurrentCustomerEmpty() {
+		Menu testMenu = new Menu();
+		assertTrue(testMenu.getCurrentCustomer()==null);		
+	}
+	
+	@Test
+	public void testGetCurrentCustomerNotEmpty() {
+		Menu testMenu = new Menu();
+		testMenu.createCustomerUser("testUser");
+		assertTrue(testMenu.getCurrentCustomer() != null);
+		
+	}
+
+
 	
 
 }

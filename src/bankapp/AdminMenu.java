@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AdminMenu {
-	private ArrayList<BankCustomer> bankCustomerList;
+	//private ArrayList<BankCustomer> bankCustomerList;
 	private BankCustomer currentCustomer;
 	//private Menu customerMenu;
 	Scanner keyboardInput;
 	
 	
-	public AdminMenu(Menu associatedCustomerMenu) {
+	public AdminMenu() {
 		//customerMenu = associatedCustomerMenu;
 		keyboardInput = new Scanner(System.in);
 	}
@@ -29,8 +29,16 @@ public class AdminMenu {
 	}
 	
 	public void displayCurrentCustomerBankAccounts() {
+		if(currentCustomer == null) {
+			throw new IllegalArgumentException("No bank customer user selected");
+		}
+			
+		ArrayList<BankAccount> customerBankAccounts = currentCustomer.getAccountList();
 		
 	}
+	
+	
+	
 	
 	public boolean deleteBankAccount() {
 		return false;
@@ -38,11 +46,6 @@ public class AdminMenu {
 	
 	public boolean deleteBankCustomer() {
 		return false;
-	}
-	
-	public BankCustomer addBankCustomer(BankCustomer customer) {
-		bankCustomerList.add(customer);
-		return customer;
 	}
 	
 	/*public void updateBankCustomerList() {
