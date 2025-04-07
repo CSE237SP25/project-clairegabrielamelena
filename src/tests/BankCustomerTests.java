@@ -4,6 +4,8 @@ package tests;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -60,5 +62,16 @@ public class BankCustomerTests {
 		testUser.transferMoney(testBankAccount1, testBankAccount2, 100);
 		assertEquals(testUser.getAccountList().size(), 2);
 		assertEquals(testBankAccount1.getCurrentBalance(), 0, 0) ; 
+	}
+	
+	@Test
+	public void testTransferAccountSelections() {
+		BankCustomer testUser = new BankCustomer("testUser");
+		BankAccount testBankAccount1 = testUser.openAccount("testing1");
+
+		assertThrows(IllegalArgumentException.class, () -> {
+			testUser.transferMoney(testBankAccount1, testBankAccount1, 100);
+		});
+		
 	}
 }

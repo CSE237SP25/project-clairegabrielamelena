@@ -33,5 +33,9 @@ public class BankAccount {
 		System.out.println("Bank Account Name: " + this.accountName);
 		System.out.println("Balance: $" + this.balance);
 	}
+	
+	public String getAccountName() {
+		return this.accountName;
+	}
 
 }

@@ -13,7 +13,7 @@ public class Main {
 		
 		// TODO prompt the user to create the first deposit
 		
-		Bank mainBank = new Bank();
+		mainBank = new Bank();
 		AdminMenu mainAdminMenu = new AdminMenu();
 		Menu mainBankCustomerMenu = new Menu();
 		
