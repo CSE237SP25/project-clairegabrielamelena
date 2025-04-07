@@ -7,6 +7,7 @@ public class AdminMenu {
 	
 	private BankCustomer currentCustomer;
 	Scanner keyboardInput;
+	private int NUM_ADMIN_MENU_ITEMS = 3;
 	
 	
 	public AdminMenu() {
@@ -45,6 +46,42 @@ public class AdminMenu {
 	}
 	
 	
+	public void displayOptions() {
+		System.out.println("\nAdmin Menu Options:"
+				+ "\n1. View a list of Bank Customers"
+				+ "\n2. View a Bank Customer's Account List"
+				+ "\n3. Exit bank admin profile");
+		System.out.println("\nPlease press a number key to indicate your selection.");
+		System.out.println();
+		int userSelection = getUserMenuInput(NUM_ADMIN_MENU_ITEMS); 
+
+		processMenuSelection(userSelection);
+	}
+
+	//Claire
+	public void processMenuSelection(int userSelection) {
+		if(userSelection == 1) { //View a list of Bank Customers
+			System.out.println("Bank Customers: ");
+			displayListOfBankCustomers();
+		}
+		else if(userSelection == 2) { //View a bank customer's account list
+			System.out.println("Enter bank customer name from the following:");
+			displayListOfBankCustomers();
+			keyboardInput.nextLine();
+			String selectedCustomerUsername = getUserStringInput();
+			currentCustomer = selectCurrentCustomer(selectedCustomerUsername, getAllCustomerListFromBank());
+			displayBankAccountList(getCurrentBankCustomerBankAccounts());
+		}
+		else if(userSelection == 3) { //leave
+			GlobalState.getInstance().setUserMode(0);
+			return;
+		}
+		else {
+			throw new IllegalArgumentException("Error: not a valid menu selection.");
+		}
+	}
+	
+	
 	public ArrayList<BankAccount> getCurrentBankCustomerBankAccounts() {
 		if(currentCustomer == null) {
 			throw new IllegalArgumentException("No bank customer user selected");
@@ -69,7 +106,20 @@ public class AdminMenu {
 		
 	}
 	
+	public int getUserMenuInput(int numMenuItems) { //ADD TRY CATCH FOR IF THEY ENTER A STRING
+		int userInput = keyboardInput.nextInt(); 
+		while(userInput < 1 || userInput > numMenuItems) {
+			System.out.println("Not a valid input. Please select an option 1 through " + numMenuItems + " on your keyboard.");
+			userInput = keyboardInput.nextInt();
+		}
+		return userInput;
+	}
 	
+	public String getUserStringInput() {
+		String userInput = keyboardInput.nextLine();
+		return userInput;
+
+	}
 	
 	
 	public boolean deleteBankAccount() {

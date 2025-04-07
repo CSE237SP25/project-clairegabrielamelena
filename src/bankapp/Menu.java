@@ -119,8 +119,7 @@ public class Menu {
 			processTransfer();
 		}
 		else if(userSelection == 5) { //Leave
-			//THIS NEEDS TO BE FIXED SO IT BRINGS YOU BACK TO WELCOME MENU
-			//Maybe modify a global variable?
+			GlobalState.getInstance().setUserMode(0);
 			return;
 		}
 		else {
