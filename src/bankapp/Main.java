@@ -22,6 +22,8 @@ public class Main {
 			mainBankCustomerMenu.createNewBankCustomerUserDisplay();
 		}
 		
+		
+		
 		while(true) {
 			mainBankCustomerMenu.displayOptions();
 		}
