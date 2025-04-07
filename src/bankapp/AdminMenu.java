@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AdminMenu {
-	//private ArrayList<BankCustomer> bankCustomerList;
+	
 	private BankCustomer currentCustomer;
-	//private Menu customerMenu;
 	Scanner keyboardInput;
 	
 	
@@ -15,25 +14,58 @@ public class AdminMenu {
 		keyboardInput = new Scanner(System.in);
 	}
 	
+	public ArrayList<BankCustomer> getAllCustomerListFromBank(){
+		return Main.mainBank.getAllBankCustomers();
+	}
 	
 	public void displayListOfBankCustomers() {
+
+		ArrayList<BankCustomer> customerList = this.getAllCustomerListFromBank();
+		if(customerList.size() == 0) {
+			System.out.println("There are no bank customer accounts on file.");
+			System.out.println();
+		}
+		else {
+			for(BankCustomer customer : customerList) {
+				System.out.println(customer.getUsername());
+			}
+			System.out.println();
+		}
 		
 	}
 	
-	public BankCustomer selectCurrentCustomer(String username) {
-		return null;
+	public BankCustomer selectCurrentCustomer(String username, ArrayList<BankCustomer> customerList) {
+		for(BankCustomer customer : customerList) {
+			if(customer.getUsername().equals(username)) {
+				return customer;
+			}
+			
+		}
+		throw new IllegalArgumentException("No bank customer account was found with the username " + username);
 	}
+	
 	
 	public ArrayList<BankAccount> getCurrentBankCustomerBankAccounts() {
-		return null;
-	}
-	
-	public void displayCurrentCustomerBankAccounts() {
 		if(currentCustomer == null) {
 			throw new IllegalArgumentException("No bank customer user selected");
 		}
-			
-		ArrayList<BankAccount> customerBankAccounts = currentCustomer.getAccountList();
+		else {
+			return currentCustomer.getAccountList();
+		}
+	}
+	
+	
+	public void displayBankAccountList(ArrayList<BankAccount> bankAccountList) {
+		
+		if(bankAccountList.size() == 0) {
+			System.out.println("There are no accounts associated with the current customer");
+		}
+		else {
+			for(BankAccount account: bankAccountList) {
+				account.displayBankAccount();
+				System.out.println();
+			}
+		}
 		
 	}
 	
@@ -48,7 +80,5 @@ public class AdminMenu {
 		return false;
 	}
 	
-	/*public void updateBankCustomerList() {
-			bankCustomerList = customerMenu.getCustomerList();
-	}*/
+	
 }
