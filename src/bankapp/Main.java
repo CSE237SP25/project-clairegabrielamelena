@@ -1,20 +1,14 @@
 package bankapp;
 
 public class Main {
+	
+	public static Bank mainBank;
 
 	public static void main(String[] args) {
-		// TODO prompt the user to create a bank customer user
 		
-		// TODO prompt the user to create a bank account
+		mainBank = new Bank();
 		
-		// TODO print the current status (user created and account created + account balance)
-		
-		// TODO prompt the user to create the first deposit
-		
-		Menu mainMenu = new Menu();
-		mainMenu.createNewBankCustomerUserDisplay();
-		mainMenu.displayOptions();
-		
+		mainBank.run();
 		
 	}
 }
