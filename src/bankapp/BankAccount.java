@@ -3,7 +3,7 @@ package bankapp;
 public class BankAccount {
 
 	private double balance;
-	private String accountName;
+	String accountName;
 	
 	public BankAccount(String accountName) {
 		this.balance = 0;
@@ -34,4 +34,4 @@ public class BankAccount {
 		System.out.println("Balance: $" + this.balance);
 	}
 }
-}
+
