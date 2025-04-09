@@ -1,6 +1,7 @@
 package bankapp;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
@@ -14,10 +15,7 @@ public class Menu {
 
 	private int NUM_PRIMARY_MENU_ITEMS = 5;
 	private int NUM_MODIFICATION_SUBMENU_ITEMS = 4;
-	//private static  AdminMenu associatedAdminMenu;
-
-	//we should think about/ask about the "has-a" framework and whether these instance variables are ok
-
+	
 	public Menu() {
 		bankAccountList = new ArrayList<BankAccount>();
 		
@@ -30,8 +28,6 @@ public class Menu {
 
 	//Gabriela
 	public BankCustomer createCustomerUser(String username) {
-		//set as currentCustomer
-		//set accountList instance variable from currentCustomer
 		currentCustomer = new BankCustomer(username);
 		System.out.println("Welcome, " + username +". Your bank customer profile has been created succesfully.");
 		System.out.println();
@@ -48,10 +44,6 @@ public class Menu {
 
 	//Gabriela
 	public void createBankAccount(String accountName) {
-		// TODO take in a string and call bank account constructor
-		// TODO print account successfully created
-		//System.out.println("What do you want to name this account?");
-		//String accountName = getUserStringInput();
 		BankAccount account = currentCustomer.openAccount(accountName);
 		currentAccount = account;
 		bankAccountList = currentCustomer.getAccountList();
@@ -65,7 +57,6 @@ public class Menu {
 	public void displayAccountList() {
 		//prints out account names and balances
 		//using method made in BankAccount class to print out name+balance of bank account
-		//no unit tests, string output
 		if(bankAccountList.isEmpty()) {
 			System.out.println("There are no bank accounts on file.");
 			System.out.println();
@@ -82,12 +73,6 @@ public class Menu {
 
 	//Claire
 	public void displayOptions() {
-		// TODO print options like press 1
-		//handle invalid value case - handled in getUserMenuInput() ? we can change that though
-
-		//create account, view account list, modify account (deposit, withdraw, rename)
-
-		//also do if statements or switch statements that executes relevant methods according to the menuChoice passed in
 		System.out.println("Menu Options:"
 				+ "\n1. Create a new bank account"
 				+ "\n2. View a list of your bank accounts"
@@ -180,23 +165,55 @@ public class Menu {
 	
 	public void processAccountModification(int userSelection) {
 		if(userSelection == 1) { //deposit
-			System.out.println("Enter amount to deposit (must greater than 0):");
-			double depositAmount = getUserDoubleInput(); 
-			currentAccount.deposit(depositAmount); 
-			System.out.println("Deposit Successful");
+			boolean success = false;
+			while(!success) {
+				System.out.println("Enter amount to deposit (must be greater than 0):");
+				double depositAmount = getUserInputDouble(); 
+				try {
+					currentAccount.deposit(depositAmount); 
+					System.out.println("Deposit Successful");
+					success = true;
+				} catch (IllegalArgumentException e) {
+		            System.out.println("Invalid deposit amount. Please try again.");
+				}
+				
+			}
 		}
 		else if (userSelection == 2) { //withdraw
-			System.out.println("Enter amount to withdraw (must greater than 0):");
-      double withdrawlAmount = getUserDoubleInput(); 
-			currentAccount.withdraw(withdrawlAmount);
-			System.out.println("Withdrawl Successful");
+			boolean success = false;
+		    while (!success) {
+		        System.out.println("Enter amount to withdraw (must be greater than 0 and not more than your balance):");
+		        double withdrawalAmount = getUserInputDouble();
+		        try {
+		            currentAccount.withdraw(withdrawalAmount);
+		            System.out.println("Withdrawal Successful");
+		            success = true;
+		        } catch (IllegalArgumentException e) {
+		            System.out.println("Invalid withdrawal amount. Please try again.");
+		        }
+		    }
     }
 
-		else if (userSelection == 3) { //rename
-			System.out.println("Enter a new account name (must be at least one 1 character and be a unique name");
-			String rename = getUserStringInput();
-			currentCustomer.renameAccount(rename); 
-			System.out.println("Rename Successful");
+		else if (userSelection == 3) { // Rename
+		    boolean success = false;
+		    while (!success) {
+		        System.out.println("Enter a new account name (must be a unique name):");
+		        String rename = getUserStringInput();
+
+		   
+		        if (rename.length() < 1) {
+		            System.out.println("Account name must be at least 1 character long.");
+		            continue;
+		        }
+
+		        try {
+		            currentCustomer.renameAccount(rename);
+		            System.out.println("Rename Successful");
+		            success = true;  // Exit loop once successful
+		        } catch (IllegalArgumentException e) {
+		            System.out.println("That account name is already taken. Please choose a different one.");
+		        }
+		    }
 		}
 		else if (userSelection == 4) { //go back
 			return;
@@ -208,33 +225,48 @@ public class Menu {
 	
 
 
-
+	
 	public int getUserMenuInput(int numMenuItems) {
-		//Scanner keyboardInput = new Scanner(System.in);
-		int userInput = keyboardInput.nextInt();
-		while(userInput < 1 || userInput > numMenuItems) {
-			System.out.println("Not a valid input. Please select an option 1 through " + numMenuItems + " on your keyboard.");
-			userInput = keyboardInput.nextInt();
-		}
-		return userInput;
+	    int userInput = -1;
+	    boolean valid = false;
+
+	    while (!valid) {
+
+	        try {
+	            userInput = keyboardInput.nextInt();
+	            if (userInput >= 1 && userInput <= numMenuItems) {
+	                valid = true;
+	            } else {
+	                System.out.println("Not a valid input. Please select an option 1 through" + numMenuItems + " on your keyboard.");
+	            }
+	        } catch (InputMismatchException e) {
+	            System.out.println("Invalid input. Please enter a number.");
+	            keyboardInput.next(); 
+	        }
+	    }
+
+	    return userInput;
 	}
 	
-	
-	
 
-	//TODO maybe make a getAccountList() getter? or alternative. but make sure testValidMenuSelection works in MenuTests.java
 
-	//deal with later
-	//methosd that req user inptu don't need to be tested
 	public double getUserInputDouble() {
-		double userInput = keyboardInput.nextDouble();
-		
-		while(userInput < 0) {
-			System.out.println("Not a valid input. Please enter a number greater than 0:");
-			userInput = keyboardInput.nextDouble();
-		}
-		
-		return userInput;
+	    double userInput = -1;
+
+	    while (userInput <= 0) {
+
+	        if (keyboardInput.hasNextDouble()) {
+	            userInput = keyboardInput.nextDouble();
+	            if (userInput <= 0) {
+	                System.out.println("Amount must be greater than 0.");
+	            }
+	        } else {
+	            System.out.println("Not a valid input. Please enter a number.");
+	            keyboardInput.next(); // important: clear the invalid token
+	        }
+	    }
+
+	    return userInput;
 	}
 
 	public double getUserDoubleInput() {
@@ -250,10 +282,11 @@ public class Menu {
 	}
 
 	public String getUserStringInput() {
-		//keyboardInput.nextLine();
-		String userInput = keyboardInput.nextLine();
-		return userInput;
-
+	    if (keyboardInput.hasNextLine()) {
+	        return keyboardInput.nextLine();
+	    } else {
+	        return ""; // just in case
+	    }
 	}
 
 	public BankAccount getBankAccount() {
