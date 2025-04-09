@@ -2,6 +2,7 @@ package bankapp;
 
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Bank {
@@ -58,13 +59,26 @@ public class Bank {
 		}
 
 	}
-	public int getUserMenuInput() { //ADD TRY CATCH FOR IF THEY ENTER A STRING
-		int userInput = keyboardInput.nextInt();
-		while(userInput < 1 || userInput > NUM_WELCOME_MENU_ITEMS) {
-			System.out.println("Not a valid input. Please select 1 or 2 on your keyboard.");
-			userInput = keyboardInput.nextInt();
-		}
-		return userInput;
+	public int getUserMenuInput() {
+	    int userInput = -1;
+	    boolean valid = false;
+
+	    while (!valid) {
+
+	        try {
+	            userInput = keyboardInput.nextInt();
+	            if (userInput >= 1 && userInput <= NUM_WELCOME_MENU_ITEMS) {
+	                valid = true;
+	            } else {
+	                System.out.println("Not a valid input. Please select 1 or 2.");
+	            }
+	        } catch (InputMismatchException e) {
+	            System.out.println("Invalid input. Please enter a number.");
+	            keyboardInput.next(); 
+	        }
+	    }
+
+	    return userInput;
 	}
 
 
