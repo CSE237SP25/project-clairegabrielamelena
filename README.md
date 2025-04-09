@@ -10,22 +10,21 @@ Team Members:
 For each iteration you should answer the following:
 
 What user stories were completed this iteration? 
--A user of this app can create a bank customer account/profile, and view and select menu items. 
-These menu items include the ability to open an account, deposit or withdraw money from an account
-
+-An admin can login and access a menu that allows them to see current customers and their bank accounts.
 
 What user stories do you intend to complete next iteration?
--Eventually, we plan to implement bank admin features with a separate admin menu. These could include features like a bank admin can close accounts or merge accounts for a bank customer.
--We also might add features like a bank customer can transfer money between accounts, a bank customer can close an account.
+-Addressing login capabilities and user input bugs
+-Adding more tests
 
 
 Is there anything that you implemented but doesn't currently work?
 
-Bank account modification options are not working as expected. Also, in future want message confirmation for displaying an empty bank account list.
+Some user inputs are recognized on invalid and we are working to fix those.
 
 What commands are needed to compile and run your code from the command line (please provide a script that users can run to launch your program)?
 
-Run script, 
+To run script:
 
-./script.sh on command line. Might need change modifications (chmod 777 script.sh)
+chemod +x script.sh
+./script.sh 
 
