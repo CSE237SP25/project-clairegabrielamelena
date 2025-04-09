@@ -1,6 +1,7 @@
 package bankapp;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class BankCustomer {
 
@@ -15,9 +16,17 @@ public class BankCustomer {
 	
 	//Gabriela
 	public BankAccount openAccount(String accountName) {
+		Optional<BankAccount> sameName = this.accountList.stream()
+		        .filter(a -> a.accountName.equals(accountName))
+		        .findAny();
+		 if (sameName.isPresent()) {
+			 throw new IllegalArgumentException();
+		 }
+		else {
 		BankAccount account = new BankAccount(accountName);
 		accountList.add(account);
 		return account;
+		}
 	}
 	
 	public void transferMoney(BankAccount sourceAccount, BankAccount destinationAccount, double amount) {
@@ -46,7 +55,16 @@ public class BankCustomer {
 	
 	//Melena
 	public String renameAccount(String newAccountName) {
+		 Optional<BankAccount> sameName = this.accountList.stream()
+		        .filter(a -> a.accountName.equals(newAccountName))
+		        .findAny();
+		 if (sameName.isPresent()) {
+			 throw new IllegalArgumentException();
+		 }
+		 else { 
 		this.username = newAccountName; 
 		return this.getUsername(); 
-	}
+		 }
+		}
+	
 }
