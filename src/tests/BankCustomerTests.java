@@ -74,4 +74,29 @@ public class BankCustomerTests {
 		});
 		
 	}
+	
+	@Test
+	public void testNoRepeatBankAccountName() {
+		BankCustomer testUser = new BankCustomer("testUser");
+		BankAccount testBankAccount1 = testUser.openAccount("testing1");
+
+		assertThrows(IllegalArgumentException.class, () -> {
+			testUser.openAccount("testing1");
+		});
+		
+	}
+	
+	@Test
+	public void testAllowsNonRepeatBankAccountName() {
+		BankCustomer testUser = new BankCustomer("testUser");
+		BankAccount testBankAccount1 = testUser.openAccount("testing1");
+		BankAccount testBankAccount2 = testUser.openAccount("differentName");
+		
+		assertEquals(testUser.getAccountList().size(), 2);
+		
+	}
+	
+	
+	
+	
 }
