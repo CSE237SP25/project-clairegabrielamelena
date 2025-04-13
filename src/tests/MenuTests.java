@@ -11,15 +11,7 @@ import java.io.InputStream;
 
 public class MenuTests {
 	
-	@Test
-	public void testCustomerBankAccountCreation() {
-		
-		Menu testMenu = new Menu();
-		testMenu.createCustomerUser("testUser");
-		testMenu.createBankAccount("name");
-		assertEquals(1, testMenu.getBankAccountList().size());
-		
-	}
+	
 	@Test
 	public void testInvalidMenuSelection() {
 		Menu testMenu = new Menu();

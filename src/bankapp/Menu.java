@@ -43,13 +43,32 @@ public class Menu {
 	}
 
 	//Gabriela
-	public void createBankAccount(String accountName) {
+	/*public void createBankAccount(String accountName) {
 		BankAccount account = currentCustomer.openAccount(accountName);
 		currentAccount = account;
 		bankAccountList = currentCustomer.getAccountList();
 		System.out.println("Account " + accountName +" succesfully created.");
 		System.out.println();
 
+	}*/
+	
+	public void createBankAccount() {
+		boolean success = false;
+	    while (!success) {
+	        System.out.println("Enter a name for your new bank account:");
+	        System.out.println("This name must not be the same name as an existing bank account under your user account and can only include alphabetical letters and numbers.");
+	        keyboardInput.next();
+	        String bankAccountNameInput = getUserStringInput();
+	        try {
+	        	
+	            currentCustomer.openAccount(bankAccountNameInput);
+	            System.out.println("Bank account " + bankAccountNameInput + " created succesfully.");
+	            success = true;
+	        } catch (IllegalArgumentException e) {
+	            System.out.println("Account opening failed. An invalid bank account name was entered.");
+	            System.out.println();
+	        }
+	    }
 	}
 
 
@@ -89,10 +108,7 @@ public class Menu {
 	//Claire
 	public void processMenuSelection(int userSelection) {
 		if(userSelection == 1) { //Create account
-			System.out.println("Enter bank account name:");
-			keyboardInput.nextLine();
-			String accountName = getUserStringInput();
-			createBankAccount(accountName);
+			createBankAccount();
 		}
 		else if(userSelection == 2) { //View account list
 			displayAccountList();
