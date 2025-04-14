@@ -17,7 +17,7 @@ public class BankCustomer {
 	//Gabriela
 	public BankAccount openAccount(String accountName) {
 		Optional<BankAccount> sameName = this.accountList.stream()
-				.filter(a -> a.accountName.equals(accountName))
+				.filter(a -> a.getAccountName().equals(accountName))
 				.findAny();
 		if (sameName.isPresent()) {
 			throw new IllegalArgumentException();
@@ -25,6 +25,7 @@ public class BankCustomer {
 		else {
 			BankAccount account = new BankAccount(accountName);
 			accountList.add(account);
+			System.out.print(account.getAccountName());
 			return account;
 		}
 	}
@@ -57,7 +58,7 @@ public class BankCustomer {
 	//Melena
 	public String renameAccount(String newAccountName) {
 		Optional<BankAccount> sameName = this.accountList.stream()
-				.filter(a -> a.accountName.equals(newAccountName))
+				.filter(a -> a.getAccountName().equals(newAccountName))
 				.findAny();
 		if (sameName.isPresent()) {
 			throw new IllegalArgumentException();

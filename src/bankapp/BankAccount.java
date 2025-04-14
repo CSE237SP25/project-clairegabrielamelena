@@ -3,11 +3,11 @@ package bankapp;
 public class BankAccount {
 
 	private double balance;
-	String accountName;
+	private String accountName;
 	
-	public BankAccount(String accountName) {
+	public BankAccount(String name) {
 		this.balance = 0;
-		this.accountName = accountName;
+		accountName = name;
 	}
 
 	public void deposit(double amount) {
