@@ -27,8 +27,10 @@ public class AdminMenu {
 			System.out.println();
 		}
 		else {
+			int i = 1;
 			for(BankCustomer customer : customerList) {
-				System.out.println(customer.getUsername());
+				System.out.println(i+ ". "+ customer.getUsername());
+				i++;
 			}
 			System.out.println();
 		}
@@ -65,12 +67,13 @@ public class AdminMenu {
 			displayListOfBankCustomers();
 		}
 		else if(userSelection == 2) { //View a bank customer's account list
-			System.out.println("Enter bank customer name from the following:");
-			displayListOfBankCustomers();
-			keyboardInput.nextLine();
-			String selectedCustomerUsername = getUserStringInput();
-			currentCustomer = selectCurrentCustomer(selectedCustomerUsername, getAllCustomerListFromBank());
-			displayBankAccountList(getCurrentBankCustomerBankAccounts());
+			ArrayList<BankCustomer> customerList = this.getAllCustomerListFromBank();
+			if(customerList.size() == 0) {
+				System.out.println("There are no bank customer accounts on file.");
+				System.out.println();
+				return;
+			}
+			viewBankCustomerAccounts();
 		}
 		else if(userSelection == 3) { //leave
 			GlobalState.getInstance().setUserMode(0);
@@ -79,6 +82,17 @@ public class AdminMenu {
 		else {
 			throw new IllegalArgumentException("Error: not a valid menu selection.");
 		}
+	}
+
+	private void viewBankCustomerAccounts() {
+		ArrayList<BankCustomer> customerList = this.getAllCustomerListFromBank();
+		displayListOfBankCustomers();
+		System.out.println("Enter a number between 1 and "
+				+ customerList.size() + " to select which bank customer you would like to view accounts for:");
+		int customerSelection = getUserMenuInput(customerList.size());
+		String selectedCustomerUsername = customerList.get(customerSelection-1).username;
+		currentCustomer = selectCurrentCustomer(selectedCustomerUsername, getAllCustomerListFromBank());
+		displayBankAccountList(getCurrentBankCustomerBankAccounts());
 	}
 	
 	
@@ -98,6 +112,7 @@ public class AdminMenu {
 			System.out.println("There are no accounts associated with the current customer");
 		}
 		else {
+			System.out.println("Bank Accounts for Bank Customer " + currentCustomer.username + " :");
 			for(BankAccount account: bankAccountList) {
 				account.displayBankAccount();
 				System.out.println();

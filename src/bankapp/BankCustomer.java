@@ -25,7 +25,7 @@ public class BankCustomer {
 		else {
 			BankAccount account = new BankAccount(accountName);
 			accountList.add(account);
-			System.out.print(account.getAccountName());
+			//System.out.print(account.getAccountName());
 			return account;
 		}
 	}

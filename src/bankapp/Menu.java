@@ -56,12 +56,12 @@ public class Menu {
 	public void createBankAccount() {
 		boolean success = false;
 		while (!success) {
-			System.out.println("Enter a name for your new bank account:");
-			System.out.println("This name must not be the same name as an existing bank account under your user account and can only include alphabetical letters and numbers.");
-			keyboardInput.next();
+			System.out.println("A bank account name must not be the same name as "
+					+ "an existing bank account under your user account and can only include alphabetical letters and numbers."
+					+ "\nEnter a name for your new bank account:");
+			keyboardInput.nextLine();
 			String bankAccountNameInput = getUserStringInput();
 			try {
-
 				currentCustomer.openAccount(bankAccountNameInput);
 				System.out.println("Bank account " + bankAccountNameInput + " created succesfully.");
 				success = true;
@@ -152,7 +152,6 @@ public class Menu {
 		double transferAmount = getUserInputDouble();
 
 		currentCustomer.transferMoney(sourceAccount, destinationAccount, transferAmount);
-		//System.out.println("Transfer completed."); can't go here because then it prints even if the transfer was unsuccessful.
 	}
 
 	public void selectAccount() {
@@ -167,8 +166,8 @@ public class Menu {
 	public void displayAccountModificationOptions() {
 
 		if (this.currentCustomer.accountList.isEmpty()) {
-			System.out.println("You must create an account to make any modifications");
-			displayOptions();			
+			System.out.println("You must create an account to make any modifications.");
+			return;			
 		}
 
 		System.out.println("Bank Account Modification Menu Options:"
@@ -179,7 +178,6 @@ public class Menu {
 		System.out.println("\nPlease press a number key to indicate your selection.");
 		System.out.println();
 		int userSelection = getUserMenuInput(NUM_MODIFICATION_SUBMENU_ITEMS); 
-		selectAccount(); 
 		processAccountModification(userSelection); 
 
 
@@ -188,63 +186,78 @@ public class Menu {
 
 	public void processAccountModification(int userSelection) {
 		if(userSelection == 1) { //deposit
-			boolean success = false;
-			while(!success) {
-				System.out.println("Enter amount to deposit (must be greater than 0):");
-				double depositAmount = getUserInputDouble(); 
-				try {
-					currentAccount.deposit(depositAmount); 
-					System.out.println("Deposit Successful");
-					success = true;
-				} catch (IllegalArgumentException e) {
-					System.out.println("Invalid deposit amount. Please try again.");
-				}
-
-			}
+			selectAccount(); 
+			performDeposit();
 		}
 		else if (userSelection == 2) { //withdraw
-			boolean success = false;
-			while (!success) {
-				System.out.println("Enter amount to withdraw (must be greater than 0 and not more than your balance):");
-				double withdrawalAmount = getUserInputDouble();
-				try {
-					currentAccount.withdraw(withdrawalAmount);
-					System.out.println("Withdrawal Successful");
-					success = true;
-				} catch (IllegalArgumentException e) {
-					System.out.println("Invalid withdrawal amount. Please try again.");
-				}
-			}
+			selectAccount(); 
+			performWithdrawal();
 		}
 
 		else if (userSelection == 3) { // Rename
-			boolean success = false;
-			while (!success) {
-				System.out.println("Enter a new account name (must be a unique name):");
-				String rename = getUserStringInput();
-
-
-				if (rename.length() < 1) {
-					System.out.println("Account name must be at least 1 character long.");
-					continue;
-				}
-
-				try {
-					currentCustomer.renameAccount(rename);
-					System.out.println("Rename Successful");
-					success = true;  // Exit loop once successful
-				} catch (IllegalArgumentException e) {
-					System.out.println("That account name is already taken. Please choose a different one.");
-				}
-			}
+			selectAccount(); 
+			performRenaming();
 		}
 		
 		else if (userSelection == 4) { 
-			displayOptions(); 
+			return;
 		}
 
 		else {
 			throw new IllegalArgumentException("Error: not a valid menu selection.");
+		}
+	}
+
+	private void performRenaming() {
+		boolean success = false;
+		while (!success) {
+			System.out.println("Enter a new account name (must be a unique name):");
+			String rename = getUserStringInput();
+
+
+			if (rename.length() < 1) {
+				System.out.println("Account name must be at least 1 character long.");
+				continue;
+			}
+
+			try {
+				currentCustomer.renameAccount(rename);
+				System.out.println("Rename Successful");
+				success = true;  // Exit loop once successful
+			} catch (IllegalArgumentException e) {
+				System.out.println("That account name is already taken. Please choose a different one.");
+			}
+		}
+	}
+
+	private void performWithdrawal() {
+		boolean success = false;
+		while (!success) {
+			System.out.println("Enter amount to withdraw (must be greater than 0 and not more than your balance):");
+			double withdrawalAmount = getUserInputDouble();
+			try {
+				currentAccount.withdraw(withdrawalAmount);
+				System.out.println("Withdrawal Successful");
+				success = true;
+			} catch (IllegalArgumentException e) {
+				System.out.println("Invalid withdrawal amount. Please try again.");
+			}
+		}
+	}
+
+	private void performDeposit() {
+		boolean success = false;
+		while(!success) {
+			System.out.println("Enter amount to deposit (must be greater than 0):");
+			double depositAmount = getUserInputDouble(); 
+			try {
+				currentAccount.deposit(depositAmount); 
+				System.out.println("Deposit Successful");
+				success = true;
+			} catch (IllegalArgumentException e) {
+				System.out.println("Invalid deposit amount. Please try again.");
+			}
+
 		}
 	}
 
