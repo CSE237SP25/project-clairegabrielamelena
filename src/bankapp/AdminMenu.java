@@ -90,7 +90,7 @@ public class AdminMenu {
 		System.out.println("Enter a number between 1 and "
 				+ customerList.size() + " to select which bank customer you would like to view accounts for:");
 		int customerSelection = getUserMenuInput(customerList.size());
-		String selectedCustomerUsername = customerList.get(customerSelection-1).username;
+		String selectedCustomerUsername = customerList.get(customerSelection-1).getUsername();
 		currentCustomer = selectCurrentCustomer(selectedCustomerUsername, getAllCustomerListFromBank());
 		displayBankAccountList(getCurrentBankCustomerBankAccounts());
 	}
@@ -112,7 +112,7 @@ public class AdminMenu {
 			System.out.println("There are no accounts associated with the current customer");
 		}
 		else {
-			System.out.println("Bank Accounts for Bank Customer " + currentCustomer.username + " :");
+			System.out.println("Bank Accounts for Bank Customer " + currentCustomer.getUsername() + " :");
 			for(BankAccount account: bankAccountList) {
 				account.displayBankAccount();
 				System.out.println();

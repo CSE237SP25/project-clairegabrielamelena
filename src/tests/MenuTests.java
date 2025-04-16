@@ -53,7 +53,7 @@ public class MenuTests {
 	@Test
 	public void testGetCurrentCustomerNotEmpty() {
 		Menu testMenu = new Menu();
-		testMenu.createCustomerUser("testUser");
+		testMenu.createCustomerUser("testUser", "");
 		assertTrue(testMenu.getCurrentCustomer() != null);
 		
 	}
