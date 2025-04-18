@@ -29,7 +29,7 @@ public class BankTests {
 	public void  testAddingCustomerUpdatesList() {
 		Bank testBank = new Bank();
 		BankCustomer testUser = new BankCustomer("testUser");
-		testBank.addBankCustomer(testUser);
+		testBank.addBankCustomer(testUser, "");
 		assertEquals(testBank.getAllBankCustomers().size(), 1);
 	}
 	

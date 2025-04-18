@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public class BankCustomer {
 
-	String username;
+	private String username;
 	ArrayList<BankAccount> accountList;
 
 
@@ -54,6 +54,7 @@ public class BankCustomer {
 	public String getUsername() {
 		return username;
 	}
+
 
 	//Melena
 	public String renameAccount(String newAccountName) {

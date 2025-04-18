@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Menu {
 	private BankCustomer currentCustomer;
 
-	private ArrayList<BankAccount> bankAccountList;
+	private ArrayList<BankAccount> bankAccountList; 
 
 	BankAccount currentAccount; 
 	Scanner keyboardInput;
@@ -27,12 +27,12 @@ public class Menu {
 	}
 
 	//Gabriela
-	public BankCustomer createCustomerUser(String username) {
+	public BankCustomer createCustomerUser(String username, String password) {
 		currentCustomer = new BankCustomer(username);
 		bankAccountList = currentCustomer.accountList; 
 		System.out.println("Welcome, " + username +". Your bank customer profile has been created succesfully.");
 		System.out.println();
-		Main.mainBank.addBankCustomer(currentCustomer);
+		Main.mainBank.addBankCustomer(currentCustomer, password);
 
 		return currentCustomer;
 	}
@@ -40,8 +40,11 @@ public class Menu {
 	public void createNewBankCustomerUserDisplay() {
 		System.out.println("To create a customer user profile, enter a username: ");
 		String usernameInput = getUserStringInput();
-		this.createCustomerUser(usernameInput);
+		System.out.println("Please set your password: ");
+		String passwordInput = getUserPasswordInput();
+		this.createCustomerUser(usernameInput, passwordInput);
 	}
+	
 
 	//Gabriela
 	/*public void createBankAccount(String accountName) {
@@ -314,7 +317,13 @@ public class Menu {
 	}
 
 	//can and should test methods that process user input
-
+	public String getUserPasswordInput(){
+		if (keyboardInput.hasNextLine()) {
+			return keyboardInput.nextLine();
+		} else {
+			return "";
+		}
+	}
 	public void processUserInput(double amount) {
 		//can handle deposits and withdrawls
 	}
@@ -337,6 +346,10 @@ public class Menu {
 
 	public BankCustomer getCurrentCustomer() {
 		return currentCustomer;
+	}
+	
+	public void setCurrentCustomer(BankCustomer currentCustomer) {
+		this.currentCustomer = currentCustomer;
 	}
 
 
