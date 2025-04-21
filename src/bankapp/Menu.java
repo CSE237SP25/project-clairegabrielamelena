@@ -39,22 +39,42 @@ public class Menu {
 
 	public void createNewBankCustomerUserDisplay() {
 		System.out.println("To create a customer user profile, enter a username: ");
-		String usernameInput = getUserStringInput();
+		String usernameInput = this.getUsernameInput();
 		System.out.println("Please set your password: ");
 		String passwordInput = getUserPasswordInput();
 		this.createCustomerUser(usernameInput, passwordInput);
 	}
 	
+	public String getUsernameInput() {
+		ArrayList<BankCustomer> allCustomerList = Main.mainBank.getAllBankCustomers();
+		boolean success = false;
+		boolean nameAlreadyInUse = false;
+		if(allCustomerList.size()>0) {
+			keyboardInput.nextLine();
+		}
+		String usernameInput = getUserStringInput();
+		while(this.isNameInUse(usernameInput)){
+			System.out.println("Sorry, that username is already in use. Please enter another username.");
+			usernameInput = getUserStringInput();
+		}
+		System.out.println(usernameInput + " is an available username.");
+		return usernameInput;
+	}
+	public boolean isNameInUse(String testUsername) {
+		ArrayList<BankCustomer> allCustomerList = Main.mainBank.getAllBankCustomers();
+		boolean nameAlreadyInUse = false;
+		for(BankCustomer customer : allCustomerList) {
+		
+			if(customer.getUsername().equals(testUsername)) {
+				nameAlreadyInUse = true;
+				
+			}
+		}
+	
+		return nameAlreadyInUse;
+	}
+	
 
-	//Gabriela
-	/*public void createBankAccount(String accountName) {
-		BankAccount account = currentCustomer.openAccount(accountName);
-		currentAccount = account;
-		bankAccountList = currentCustomer.getAccountList();
-		System.out.println("Account " + accountName +" succesfully created.");
-		System.out.println();
-
-	}*/
 
 	public void createBankAccount() {
 		boolean success = false;
