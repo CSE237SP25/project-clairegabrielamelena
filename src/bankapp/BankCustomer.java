@@ -10,16 +10,23 @@ public class BankCustomer {
 
 
 	public BankCustomer(String username) {
-		this.username = username;
-		accountList = new ArrayList<BankAccount>();
+
+		if (username == null || username.isBlank() || username.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
+		else {
+			this.username = username;
+			accountList = new ArrayList<BankAccount>();
+		}
 	}
 
 	//Gabriela
 	public BankAccount openAccount(String accountName) {
+		System.out.print(accountName);
 		Optional<BankAccount> sameName = this.accountList.stream()
 				.filter(a -> a.getAccountName().equals(accountName))
 				.findAny();
-		if (sameName.isPresent()) {
+		if (sameName.isPresent() || accountName.isBlank() || accountName.isEmpty() || accountName == null) {
 			throw new IllegalArgumentException();
 		}
 		else {
