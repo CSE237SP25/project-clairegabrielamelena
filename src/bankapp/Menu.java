@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Menu {
 	private BankCustomer currentCustomer;
 
-	private ArrayList<BankAccount> bankAccountList;
+	private ArrayList<BankAccount> bankAccountList; 
 
 	BankAccount currentAccount; 
 	Scanner keyboardInput;
@@ -27,6 +27,7 @@ public class Menu {
 	}
 
 	//Gabriela
+
 	public BankCustomer createCustomerUser(String username) {
 
 		boolean success = false;
@@ -46,25 +47,52 @@ public class Menu {
 			}
 		}
 
-
 		return currentCustomer;
 	}
 
 	public void createNewBankCustomerUserDisplay() {
 		System.out.println("To create a customer user profile, enter a username: ");
+
 		String fillerVal = null; 
 		this.createCustomerUser(fillerVal);
+
+		String usernameInput = this.getUsernameInput();
+		System.out.println("Please set your password: ");
+		String passwordInput = getUserPasswordInput();
+		this.createCustomerUser(usernameInput, passwordInput);
 	}
+	
+	public String getUsernameInput() {
+		ArrayList<BankCustomer> allCustomerList = Main.mainBank.getAllBankCustomers();
+		boolean success = false;
+		boolean nameAlreadyInUse = false;
+		if(allCustomerList.size()>0) {
+			keyboardInput.nextLine();
+		}
+		String usernameInput = getUserStringInput();
+		while(this.isNameInUse(usernameInput)){
+			System.out.println("Sorry, that username is already in use. Please enter another username.");
+			usernameInput = getUserStringInput();
+		}
+		System.out.println(usernameInput + " is an available username.");
+		return usernameInput;
 
-	//Gabriela
-	/*public void createBankAccount(String accountName) {
-		BankAccount account = currentCustomer.openAccount(accountName);
-		currentAccount = account;
-		bankAccountList = currentCustomer.getAccountList();
-		System.out.println("Account " + accountName +" succesfully created.");
-		System.out.println();
+	}
+	public boolean isNameInUse(String testUsername) {
+		ArrayList<BankCustomer> allCustomerList = Main.mainBank.getAllBankCustomers();
+		boolean nameAlreadyInUse = false;
+		for(BankCustomer customer : allCustomerList) {
+		
+			if(customer.getUsername().equals(testUsername)) {
+				nameAlreadyInUse = true;
+				
+			}
+		}
+	
+		return nameAlreadyInUse;
+	}
+	
 
-	}*/
 
 	public void createBankAccount() {
 		boolean success = false;
@@ -328,7 +356,13 @@ public class Menu {
 	}
 
 	//can and should test methods that process user input
-
+	public String getUserPasswordInput(){
+		if (keyboardInput.hasNextLine()) {
+			return keyboardInput.nextLine();
+		} else {
+			return "";
+		}
+	}
 	public void processUserInput(double amount) {
 		//can handle deposits and withdrawls
 	}
@@ -354,6 +388,10 @@ public class Menu {
 
 	public BankCustomer getCurrentCustomer() {
 		return currentCustomer;
+	}
+	
+	public void setCurrentCustomer(BankCustomer currentCustomer) {
+		this.currentCustomer = currentCustomer;
 	}
 
 
