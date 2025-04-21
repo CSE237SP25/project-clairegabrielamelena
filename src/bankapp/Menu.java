@@ -27,35 +27,18 @@ public class Menu {
 	}
 
 	//Gabriela
-
-	public BankCustomer createCustomerUser(String username) {
-
-		boolean success = false;
-		while (!success) {
-			username = getUserStringInput();
-			try {
-				currentCustomer = new BankCustomer(username);
-				bankAccountList = currentCustomer.accountList; 
-				System.out.println("Welcome, " + username +". Your bank customer profile has been created succesfully.");
-				System.out.println();
-				Main.mainBank.addBankCustomer(currentCustomer);
-				success= true; 
-
-			} catch (IllegalArgumentException e) {
-				System.out.println("Enter a valid profile username. Usernames can only include numbers and letters");
-				System.out.println();
-			}
-		}
+	public BankCustomer createCustomerUser(String username, String password) {
+		currentCustomer = new BankCustomer(username);
+		bankAccountList = currentCustomer.accountList; 
+		System.out.println("Welcome, " + username +". Your bank customer profile has been created succesfully.");
+		System.out.println();
+		Main.mainBank.addBankCustomer(currentCustomer, password);
 
 		return currentCustomer;
 	}
 
 	public void createNewBankCustomerUserDisplay() {
 		System.out.println("To create a customer user profile, enter a username: ");
-
-		String fillerVal = null; 
-		this.createCustomerUser(fillerVal);
-
 		String usernameInput = this.getUsernameInput();
 		System.out.println("Please set your password: ");
 		String passwordInput = getUserPasswordInput();
@@ -64,19 +47,20 @@ public class Menu {
 	
 	public String getUsernameInput() {
 		ArrayList<BankCustomer> allCustomerList = Main.mainBank.getAllBankCustomers();
-		boolean success = false;
-		boolean nameAlreadyInUse = false;
 		if(allCustomerList.size()>0) {
 			keyboardInput.nextLine();
 		}
 		String usernameInput = getUserStringInput();
-		while(this.isNameInUse(usernameInput)){
-			System.out.println("Sorry, that username is already in use. Please enter another username.");
+		while(this.isNameInUse(usernameInput) || usernameInput == null){
+			if(this.isNameInUse(usernameInput)) {
+				System.out.println("Sorry, that username is already in use. Please enter another username.");
+			} else{
+				System.out.println("Sorry, a username can only include characters and numbers 0-9. Please enter another username.");
+			}
 			usernameInput = getUserStringInput();
 		}
 		System.out.println(usernameInput + " is an available username.");
 		return usernameInput;
-
 	}
 	public boolean isNameInUse(String testUsername) {
 		ArrayList<BankCustomer> allCustomerList = Main.mainBank.getAllBankCustomers();
@@ -100,17 +84,18 @@ public class Menu {
 			System.out.println("A bank account name must not be the same name as "
 					+ "an existing bank account under your user account and can only include alphabetical letters and numbers."
 					+ "\nEnter a name for your new bank account:");
-			keyboardInput.nextLine(); 
+			keyboardInput.nextLine();
 			String bankAccountNameInput = getUserStringInput();
-			
-			try {
-				currentCustomer.openAccount(bankAccountNameInput);
-				System.out.println("Bank account " + bankAccountNameInput + " created succesfully.");
-				success = true;
-
-			} catch (IllegalArgumentException e) {
-				System.out.println("Account opening failed. An invalid bank account name was entered.");
-
+			if (bankAccountNameInput != null) {		
+				try {
+					currentCustomer.openAccount(bankAccountNameInput);
+					System.out.println("Bank account " + bankAccountNameInput + " created succesfully.");
+					success = true;
+					
+				} catch (IllegalArgumentException e) {
+					System.out.println("Account opening failed. An invalid bank account name was entered.");
+					System.out.println();
+				}
 			}
 		}
 	}
@@ -240,7 +225,7 @@ public class Menu {
 			selectAccount(); 
 			performRenaming();
 		}
-
+		
 		else if (userSelection == 4) { 
 			return;
 		}
@@ -368,13 +353,10 @@ public class Menu {
 	}
 
 	public String getUserStringInput() {
-
 		String userInput = keyboardInput.nextLine();
 		if (userInput.chars().allMatch(Character::isLetterOrDigit) && !userInput.isBlank() && !userInput.isEmpty()) {
 			return userInput; 
 		}
-
-
 		return null;
 	}
 

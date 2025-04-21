@@ -28,4 +28,3 @@ public class GlobalState {
 		USER_MODE = mode;
 	}
 }
-
