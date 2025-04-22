@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Menu {
+public class CustomerMenu {
 	private BankCustomer currentCustomer;
-
 	private ArrayList<BankAccount> bankAccountList; 
 
 	BankAccount currentAccount; 
@@ -16,35 +15,52 @@ public class Menu {
 	private int NUM_PRIMARY_MENU_ITEMS = 5;
 	private int NUM_MODIFICATION_SUBMENU_ITEMS = 4;
 
-	public Menu() {
+	/**
+     * Constructs a new Menu with an empty account list
+     */
+	public CustomerMenu() {
 		bankAccountList = new ArrayList<BankAccount>();
 
 		keyboardInput = new Scanner(System.in);
 		currentCustomer = null;
-		//associatedAdminMenu = enteredAdminMenu;
-
-
 	}
 
-	//Gabriela
-	public BankCustomer createCustomerUser(String username, String password) {
+	/**
+     * Creates a new BankCustomer, adds them to the global bank instance, and sets them as the current user.
+     * @param username the desired username
+     * @param password the user's password
+     * @return the created BankCustomer object
+     * @throws IllegalArgumentException if the username already exists
+     */
+	public BankCustomer createCustomerUserInterface(String username, String password) {
 		currentCustomer = new BankCustomer(username);
-		bankAccountList = currentCustomer.accountList; 
+		bankAccountList = currentCustomer.getAccountList(); 
 		System.out.println("Welcome, " + username +". Your bank customer profile has been created succesfully.");
 		System.out.println();
+		if (isNameInUse(username)) {
+		    throw new IllegalArgumentException("Username already exists.");
+		}
+
 		Main.mainBank.addBankCustomer(currentCustomer, password);
 
 		return currentCustomer;
 	}
 
+	 /**
+     * Initiates the creation of a new BankCustomer
+     */
 	public void createNewBankCustomerUserDisplay() {
 		System.out.println("To create a customer user profile, enter a username: ");
 		String usernameInput = this.getUsernameInput();
 		System.out.println("Please set your password: ");
 		String passwordInput = getUserPasswordInput();
-		this.createCustomerUser(usernameInput, passwordInput);
+		this.createCustomerUserInterface(usernameInput, passwordInput);
 	}
 	
+	 /**
+     * Prompts the user to enter a username until a valid and non-duplicate one is provided
+     * @return a valid, available username
+     */
 	public String getUsernameInput() {
 		ArrayList<BankCustomer> allCustomerList = Main.mainBank.getAllBankCustomers();
 		if(allCustomerList.size()>0) {
@@ -62,29 +78,30 @@ public class Menu {
 		System.out.println(usernameInput + " is an available username.");
 		return usernameInput;
 	}
+	
+	 /**
+     * Checks whether a given username is already in use in the bank's customer list.
+     * @param testUsername the username to test
+     * @return true if the username is already in use, false otherwise
+     */
 	public boolean isNameInUse(String testUsername) {
 		ArrayList<BankCustomer> allCustomerList = Main.mainBank.getAllBankCustomers();
 		boolean nameAlreadyInUse = false;
 		for(BankCustomer customer : allCustomerList) {
 		
 			if(customer.getUsername().equals(testUsername)) {
-				nameAlreadyInUse = true;
-				
+				nameAlreadyInUse = true;	
 			}
 		}
-	
 		return nameAlreadyInUse;
 	}
 	
 
-
-	public void createBankAccount() {
+    /**
+     * Prompts the user to create a new bank account and adds it to the current customer's account list.
+     */
+	public void createBankAccountInterface() {
 		boolean success = false;
-		//String input = keyboardInput.nextLine()
-		//if(keyboardInput.nextLine())
-		/*if(this.bankAccountList.size() == 0) {
-			keyboardInput.nextLine();
-		}*/
 		while (!success) {
 			System.out.println("A bank account name must not be the same name as "
 					+ "an existing bank account under your user account and can only include alphabetical letters and numbers."
@@ -105,17 +122,17 @@ public class Menu {
 		}
 	}
 
-
-	//Gabriela
+	 /**
+     * Displays a numbered list of all bank accounts associated with the current customer, or prints that there are no accounts on file 
+     */
 	public void displayAccountList() {
-		//prints out account names and balances
-		//using method made in BankAccount class to print out name+balance of bank account
 		if(bankAccountList.isEmpty()) {
 			System.out.println("There are no bank accounts on file.");
 			System.out.println();
 			return;
 		}
 		int i = 1;
+		System.out.println("Available accounts for " + currentCustomer.getUsername() + ":");
 		for(BankAccount account : bankAccountList) {
 			System.out.print(i + ". "); 
 			account.displayBankAccount();
@@ -124,7 +141,9 @@ public class Menu {
 		}
 	}
 
-	//Claire
+	 /**
+     * Displays the main menu options and processes the user's selection.
+     */
 	public void displayOptions() {
 		System.out.println("Menu Options:"
 				+ "\n1. Create a new bank account"
@@ -139,10 +158,13 @@ public class Menu {
 		processMenuSelection(userSelection);
 	}
 
-	//Claire
+    /**
+     * Handles logic for processing a menu selection from the main menu.
+     * @param userSelection the menu option number selected
+     */
 	public void processMenuSelection(int userSelection) {
 		if(userSelection == 1) { //Create account
-			createBankAccount();
+			createBankAccountInterface();
 		}
 		else if(userSelection == 2) { //View account list
 			displayAccountList();
@@ -162,42 +184,86 @@ public class Menu {
 		}
 	}
 
+    /**
+     * Handles the fund transfer process between two bank accounts under the current user.
+     * Prints messages if the operation fails or succeeds.
+     */
 	public void processTransfer() {
-		System.out.println("Transfer initiated. Available Accounts: ");
+		if (bankAccountList.size() < 2) {
+			System.out.println("Must have at least 2 bank accounts to complete a transfer. Cannot transfer funds.");
+			return;
+		}
+		System.out.println("Transfer initiated.");
 		displayAccountList();
 
-		System.out.println("Enter a number between 1 and "+ bankAccountList.size() + " to select the source account.");
-		int sourceSelection = getUserMenuInput(bankAccountList.size()) ;
-		BankAccount sourceAccount = bankAccountList.get(sourceSelection-1); 
+		BankAccount sourceAccount = getSourceAccountSelection();
+		BankAccount destinationAccount = getDestinationAccountSelection(sourceAccount);
 
-		System.out.println("Enter a number between 1 and "+ bankAccountList.size() + " to select the destination account.");
-		int destinationSelection = getUserMenuInput(bankAccountList.size());
-		while(destinationSelection == sourceSelection) {
-			System.out.print("The destination account cannot be the same as the source account. ");
-			System.out.println("Enter a number between 1 and "+ bankAccountList.size() + " to select the destination account.");
-			destinationSelection = getUserMenuInput(bankAccountList.size());
+		double transferAmount = getTransferAmount(sourceAccount, destinationAccount);
+
+		try {
+			currentCustomer.transferMoney(sourceAccount, destinationAccount, transferAmount);
+		} catch (IllegalArgumentException e) {
+			System.out.println("Insufficient funds. Unable to complete transfer.");
 		}
-		BankAccount destinationAccount = bankAccountList.get(destinationSelection-1);
+	}
+	
+    /**
+     * Prompts the user to select a source account for the transfer.
+     * @return the selected source BankAccount
+     */
+	public BankAccount getSourceAccountSelection() {
+		System.out.println("Enter a number between 1 and " + bankAccountList.size() + " to select the source account.");
+		int sourceSelection = getUserMenuInput(bankAccountList.size());
+		return bankAccountList.get(sourceSelection - 1);
+	}
+	
+    /**
+     * Prompts the user to select a destination account different from the source.
+     * @param sourceAccount the source account previously selected
+     * @return the selected destination BankAccount
+     */
+	public BankAccount getDestinationAccountSelection(BankAccount sourceAccount) {
+		int destinationSelection;
+		do {
+			System.out.println("Enter a number between 1 and " + bankAccountList.size() + " to select the destination account.");
+			destinationSelection = getUserMenuInput(bankAccountList.size());
 
-		System.out.println();
-		System.out.println("Enter the amount to transfer from "+ sourceAccount.getAccountName() + " to " + destinationAccount.getAccountName() + ":");
-		double transferAmount = getUserInputDouble();
+			if (destinationSelection == bankAccountList.indexOf(sourceAccount) + 1) {
+				System.out.println("The destination account cannot be the same as the source account.\nPlease choose a different account.");
+			}
+		} while (destinationSelection == bankAccountList.indexOf(sourceAccount) + 1);
 
-		currentCustomer.transferMoney(sourceAccount, destinationAccount, transferAmount);
+		return bankAccountList.get(destinationSelection - 1);
+	}
+	
+    /**
+     * Prompts the user for the amount to transfer between accounts.
+     * @param sourceAccount the source account
+     * @param destinationAccount the destination account
+     * @return the valid transfer amount entered by the user
+     */
+	public double getTransferAmount(BankAccount sourceAccount, BankAccount destinationAccount) {
+		System.out.println("\nEnter the amount to transfer from " + sourceAccount.getAccountName() + " to " + destinationAccount.getAccountName() + ":");
+		return getUserInputDouble();
 	}
 
+	
+    /**
+     * Prompts the user to select an account from their list to modify.
+     */
 	public void selectAccount() {
 		displayAccountList();
-		System.out.println("Enter a number between 1 and "+ bankAccountList.size() + " to select which account to modify"); 
+		System.out.println("Enter a number between 1 and "+ bankAccountList.size() + " to select which account to modify:"); 
 		int accountSelection = getUserMenuInput(bankAccountList.size()) ;// has to be greater than 1 which is not true T^T
 		this.currentAccount = bankAccountList.get(accountSelection-1); 
 	}
 
-
-	//Melena
+    /**
+     * Displays options for modifying an existing account (deposit, withdraw, rename).
+     */
 	public void displayAccountModificationOptions() {
-
-		if (this.currentCustomer.accountList.isEmpty()) {
+		if (this.currentCustomer.getAccountList().isEmpty()) {
 			System.out.println("You must create an account to make any modifications.");
 			return;			
 		}
@@ -211,11 +277,13 @@ public class Menu {
 		System.out.println();
 		int userSelection = getUserMenuInput(NUM_MODIFICATION_SUBMENU_ITEMS); 
 		processAccountModification(userSelection); 
-
-
 	}	
 
-
+	
+    /**
+     * Executes the appropriate modification based on user selection.
+     * @param userSelection the chosen modification action
+     */
 	public void processAccountModification(int userSelection) {
 		if(userSelection == 1) { //deposit
 			selectAccount(); 
@@ -240,6 +308,9 @@ public class Menu {
 		}
 	}
 
+    /**
+     * Handles renaming of an account through user input, ensuring uniqueness.
+     */
 	private void performRenaming() {
 		boolean success = false;
 		while (!success) {
@@ -262,6 +333,9 @@ public class Menu {
 		}
 	}
 
+    /**
+     * Handles withdrawal from the current account, validating user input.
+     */
 	private void performWithdrawal() {
 		boolean success = false;
 		while (!success) {
@@ -277,6 +351,9 @@ public class Menu {
 		}
 	}
 
+    /**
+     * Handles deposit into the current account, validating user input.
+     */
 	private void performDeposit() {
 		boolean success = false;
 		while(!success) {
@@ -289,42 +366,44 @@ public class Menu {
 			} catch (IllegalArgumentException e) {
 				System.out.println("Invalid deposit amount. Please try again.");
 			}
-
 		}
 	}
 
 
-
-
+    /**
+     * Prompts the user for a valid menu selection within the given range.
+     * @param numMenuItems the number of valid options
+     * @return a valid menu selection
+     */
 	public int getUserMenuInput(int numMenuItems) {
 		int userInput = -1;
 		boolean valid = false;
 
 		while (!valid) {
-
 			try {
 				userInput = keyboardInput.nextInt();
 				if (userInput >= 1 && userInput <= numMenuItems) {
 					valid = true;
 				} else {
-					System.out.println("Not a valid input. Please select an option 1 through" + numMenuItems + " on your keyboard.");
+					System.out.println("Not a valid input. Please select an option 1 through " + numMenuItems + " on your keyboard.");
 				}
 			} catch (InputMismatchException e) {
 				System.out.println("Invalid input. Please enter a number.");
 				keyboardInput.next(); 
 			}
 		}
-
 		return userInput;
 	}
 
-
-
+	
+    /**
+     * Prompts the user to enter a valid double value (must be > 0).
+     * @return a valid positive double
+     */
 	public double getUserInputDouble() {
 		double userInput = -1;
 
 		while (userInput <= 0) {
-
 			if (keyboardInput.hasNextDouble()) {
 				userInput = keyboardInput.nextDouble();
 				if (userInput <= 0) {
@@ -335,28 +414,32 @@ public class Menu {
 				keyboardInput.next(); // important: clear the invalid token
 			}
 		}
-
 		return userInput;
 	}
 
-	public double getUserDoubleInput() {
-		//Scanner keyboardInput = new Scanner(System.in);
-		double userInput = keyboardInput.nextDouble();
-		return userInput;
-	}
-
-	//can and should test methods that process user input
-	public String getUserPasswordInput(){
+    /**
+     * Prompts the user for their password input. Can have special characters.
+     * @return the password string
+     */
+	public String getUserPasswordInput() {
 		if (keyboardInput.hasNextLine()) {
-			return keyboardInput.nextLine();
-		} else {
-			return "";
+			String input = keyboardInput.nextLine();
+			while ((input.trim().isEmpty() || input.contains(" ")) && keyboardInput.hasNextLine()) {
+				System.out.println("Passwords cannot be blank or contain spaces. Please enter a valid password:");
+				input = keyboardInput.nextLine();
+			}
+			if (!input.trim().isEmpty() && !input.contains(" ")) {
+				return input;
+			}
 		}
-	}
-	public void processUserInput(double amount) {
-		//can handle deposits and withdrawls
+		return null;
 	}
 
+
+    /**
+     * Prompts the user for a string input that is alphanumeric and non-blank.
+     * @return a validated user string or null if invalid
+     */
 	public String getUserStringInput() {
 		String userInput = keyboardInput.nextLine();
 		if(userInput.isEmpty()) {
@@ -367,6 +450,7 @@ public class Menu {
 		}
 		return null;
 	}
+
 
 	public BankAccount getBankAccount() {
 		return currentAccount;
@@ -383,8 +467,6 @@ public class Menu {
 	public void setCurrentCustomer(BankCustomer currentCustomer) {
 		this.currentCustomer = currentCustomer;
 	}
-
-
 
 
 }
