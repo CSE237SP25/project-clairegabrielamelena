@@ -8,7 +8,7 @@ public class AdminMenu {
 	private BankCustomer currentCustomer;
 	Scanner keyboardInput;
 	private int NUM_ADMIN_MENU_ITEMS = 3;
-	
+	private String PASS = "admin";
 	
 	public AdminMenu() {
 		//customerMenu = associatedCustomerMenu;
@@ -47,7 +47,14 @@ public class AdminMenu {
 		throw new IllegalArgumentException("No bank customer account was found with the username " + username);
 	}
 	
-	
+	public void displayAdminWelcome() {
+		System.out.println("Please enter the admin password (available in the README): ");
+		String password = getUserStringInput(); 
+		if (!password.equals(PASS)) {
+			System.out.println("Incorrect password. Please enter the admin password  (available in the README): ");
+			password = getUserStringInput(); 
+		}
+	}
 	public void displayOptions() {
 		System.out.println("\nAdmin Menu Options:"
 				+ "\n1. View a list of Bank Customers"

@@ -14,6 +14,7 @@ public class Bank {
 	private HashMap<BankCustomer, String> allBankCustomers;
 	private AdminMenu mainAdminMenu;
 	private Menu mainBankCustomerMenu;
+	private boolean adminStart = false; 
 
 	public Bank() {
 		allBankCustomers = new HashMap<BankCustomer, String>();
@@ -39,7 +40,14 @@ public class Bank {
 			}
 
 			while(GlobalState.getInstance().getUserMode() == 2) { //Bank Admin Mode
-				mainAdminMenu.displayOptions();
+				if (!adminStart) {
+					mainAdminMenu.displayAdminWelcome();
+					adminStart = true; 
+				}
+				else {
+					mainAdminMenu.displayOptions();
+				}
+			
 			}
 
 		}
