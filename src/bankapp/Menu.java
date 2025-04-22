@@ -80,11 +80,16 @@ public class Menu {
 
 	public void createBankAccount() {
 		boolean success = false;
+		//String input = keyboardInput.nextLine()
+		//if(keyboardInput.nextLine())
+		/*if(this.bankAccountList.size() == 0) {
+			keyboardInput.nextLine();
+		}*/
 		while (!success) {
 			System.out.println("A bank account name must not be the same name as "
 					+ "an existing bank account under your user account and can only include alphabetical letters and numbers."
 					+ "\nEnter a name for your new bank account:");
-			keyboardInput.nextLine();
+			//keyboardInput.nextLine();
 			String bankAccountNameInput = getUserStringInput();
 			if (bankAccountNameInput != null) {		
 				try {
@@ -354,6 +359,9 @@ public class Menu {
 
 	public String getUserStringInput() {
 		String userInput = keyboardInput.nextLine();
+		if(userInput.isEmpty()) {
+			userInput = keyboardInput.nextLine();
+		}
 		if (userInput.chars().allMatch(Character::isLetterOrDigit) && !userInput.isBlank() && !userInput.isEmpty()) {
 			return userInput; 
 		}
