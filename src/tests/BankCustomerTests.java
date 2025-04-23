@@ -16,9 +16,6 @@ import bankapp.BankCustomer;
 
 public class BankCustomerTests {
 
-
-
-	//testing bank customer account creation - testing that username is initialized appropriately
 	@Test
 	public void testBankCustomerAccountCreationUsername() {
 		BankCustomer testUser = new BankCustomer("testUser");
@@ -27,7 +24,6 @@ public class BankCustomerTests {
 
 	}
 
-	//checking that account list is empty for a new customer
 	@Test
 	public void testBankCustomerAccountCreationAccountList() {
 		BankCustomer testUser = new BankCustomer("testUser");
@@ -74,4 +70,66 @@ public class BankCustomerTests {
 		});
 		
 	}
+	
+	@Test
+	public void testNoRepeatBankAccountName() {
+		BankCustomer testUser = new BankCustomer("testUser");
+		BankAccount testBankAccount1 = testUser.openAccount("testing1");
+
+		assertThrows(IllegalArgumentException.class, () -> {
+			testUser.openAccount("testing1");
+		});
+		
+	}
+	
+	@Test
+	public void testAllowsNonRepeatBankAccountName() {
+		BankCustomer testUser = new BankCustomer("testUser");
+		BankAccount testBankAccount1 = testUser.openAccount("testing1");
+		BankAccount testBankAccount2 = testUser.openAccount("differentName");
+		
+		assertEquals(testUser.getAccountList().size(), 2);
+		
+	}
+	
+	@Test
+	public void testTransferMoneyInsufficientFunds() {
+	    BankCustomer testUser = new BankCustomer("testUser");
+	    BankAccount testBankAccount1 = testUser.openAccount("checking");
+	    BankAccount testBankAccount2 = testUser.openAccount("savings");
+
+	    testBankAccount1.deposit(50); //Not enough for the transfer attempt
+
+	    assertThrows(IllegalArgumentException.class, () -> {
+	        testUser.transferMoney(testBankAccount1, testBankAccount2, 100);
+	    });
+
+	    //balances should remain unchanged
+	    assertEquals(50.0, testBankAccount1.getCurrentBalance(), 0.001);
+	    assertEquals(0.0, testBankAccount2.getCurrentBalance(), 0.001);
+	}
+	
+	@Test
+	public void testNullUsernameThrowsException() {
+	    assertThrows(IllegalArgumentException.class, () -> {
+	        new BankCustomer(null);
+	    });
+	}
+
+	@Test
+	public void testEmptyUsernameThrowsException() {
+	    assertThrows(IllegalArgumentException.class, () -> {
+	        new BankCustomer("");
+	    });
+	}
+
+	@Test
+	public void testWhitespaceUsernameThrowsException() {
+	    assertThrows(IllegalArgumentException.class, () -> {
+	        new BankCustomer("   ");
+	    });
+	}
+
+	
+	
 }

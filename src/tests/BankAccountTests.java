@@ -8,9 +8,18 @@ import static org.junit.Assert.fail;
 import org.junit.jupiter.api.Test;
 
 import bankapp.BankAccount;
+import bankapp.BankCustomer;
 
 public class BankAccountTests {
 
+	@Test
+	public void testBankAccountCreation() {
+		BankAccount testAccount = new BankAccount("testAccount");
+		String accountName = testAccount.getAccountName();
+		assertEquals(accountName, "testAccount");
+
+	}
+	
 	@Test
 	public void testSimpleDeposit() {
 		//1. Create objects to be tested
@@ -37,7 +46,7 @@ public class BankAccountTests {
 	}
 	
 	@Test
-	public void testSimpleWithdrawl() {
+	public void testSimpleWithdrawal() {
 		BankAccount account = new BankAccount("test");
 		account.deposit(30);
 		account.withdraw(25);
@@ -46,7 +55,7 @@ public class BankAccountTests {
 	}
 	
 	@Test
-	public void testInvalidWithdrawl() {
+	public void testInvalidWithdrawal() {
 		BankAccount account = new BankAccount("test");
 		account.deposit(30);
 		try {
@@ -58,7 +67,7 @@ public class BankAccountTests {
 	}
 	
 	@Test
-	public void testNegativeWithdrawl() {
+	public void testNegativeWithdrawal() {
 		BankAccount account = new BankAccount("test");
 		account.deposit(30);
 		try {
